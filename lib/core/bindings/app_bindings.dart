@@ -7,7 +7,7 @@ import 'package:xyz/features/auth/logic/login/login_bloc.dart';
 import 'package:xyz/features/auth/logic/register/register_bloc.dart';
 import 'package:xyz/features/community/logic/community_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post_bloc.dart';
+import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/main/logic/main_bloc.dart';
 
 class AppBindings extends Bindings {

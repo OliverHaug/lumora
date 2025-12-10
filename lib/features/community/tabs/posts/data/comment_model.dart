@@ -31,13 +31,14 @@ class CommentModel extends Equatable {
     bool? youLiked,
     List<CommentModel>? replies,
     int? repliesCount,
+    String? content,
   }) {
     return CommentModel(
       id: id,
       postId: postId,
       parentId: parentId,
       author: author,
-      content: content,
+      content: content ?? this.content,
       createdAt: createdAt,
       likesCount: likesCount ?? this.likesCount,
       youLiked: youLiked ?? this.youLiked,
@@ -51,7 +52,6 @@ class CommentModel extends Equatable {
     String? currentUserId,
   }) {
     final likesRel = (map['comment_likes'] as List?) ?? const [];
-    final repliesRel = (map['replies'] as List?) ?? const [];
 
     return CommentModel(
       id: map['id'] as String,
@@ -61,7 +61,7 @@ class CommentModel extends Equatable {
       content: map['content'] as String,
       createdAt: DateTime.parse(map['created_at'] as String),
       likesCount: likesRel.length,
-      repliesCount: repliesRel.length,
+      repliesCount: (map['replies_count'] as int?) ?? 0,
       youLiked:
           (map['comment_likes'] as List?)?.any(
             (l) => l['user_id'] == currentUserId,
@@ -71,5 +71,16 @@ class CommentModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, author, content, createdAt];
+  List<Object?> get props => [
+    id,
+    postId,
+    parentId,
+    author,
+    content,
+    createdAt,
+    likesCount,
+    youLiked,
+    repliesCount,
+    replies,
+  ];
 }

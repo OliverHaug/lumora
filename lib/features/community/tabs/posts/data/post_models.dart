@@ -36,7 +36,7 @@ class PostModel extends Equatable {
       imageUrl: map['image_url'] as String?,
       createdAt: DateTime.parse(map['created_at'] as String),
       likesCount: likes.length,
-      commentsCount: comments.length,
+      commentsCount: map['comments_count'],
       youLiked:
           currentUserId != null &&
           likes.any((l) => l['user_id'] == currentUserId),
@@ -47,7 +47,7 @@ class PostModel extends Equatable {
     return {'author_id': author.id, 'content': content, 'image_url': imageUrl};
   }
 
-  PostModel copyWith({int? likesCount, bool? youLiked}) {
+  PostModel copyWith({int? likesCount, bool? youLiked, int? commentsCount}) {
     return PostModel(
       id: id,
       author: author,
@@ -55,7 +55,7 @@ class PostModel extends Equatable {
       imageUrl: imageUrl,
       createdAt: createdAt,
       likesCount: likesCount ?? this.likesCount,
-      commentsCount: commentsCount,
+      commentsCount: commentsCount ?? this.commentsCount,
       youLiked: youLiked ?? this.youLiked,
       comments: comments,
     );

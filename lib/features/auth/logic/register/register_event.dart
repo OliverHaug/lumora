@@ -15,4 +15,6 @@ class RegisterConfirmPasswordChanged extends RegisterEvent {
   RegisterConfirmPasswordChanged(this.password);
 }
 
+class RegisterReset extends RegisterEvent {}
+
 class RegisterSubmitted extends RegisterEvent {}

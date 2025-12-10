@@ -24,10 +24,25 @@ class RegisterPage extends StatelessWidget {
           child: BlocConsumer<RegisterBloc, RegisterState>(
             listener: (context, state) {
               if (state.status == RegisterStatus.success) {
-                Get.snackbar('Success', 'Account created!');
-                Get.offAllNamed('/communty');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Column(
+                      children: [Text('Success'), Text('Account created!')],
+                    ),
+                  ),
+                );
+                Get.offAllNamed('/community');
               } else if (state.status == RegisterStatus.failure) {
-                Get.snackbar('Error', state.error ?? 'Failed to register');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Column(
+                      children: [
+                        Text('Error'),
+                        Text(state.error ?? 'Failed to register'),
+                      ],
+                    ),
+                  ),
+                );
               }
             },
             builder: (context, state) {

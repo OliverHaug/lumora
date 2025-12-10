@@ -8,14 +8,15 @@ class PostState extends Equatable {
   final PostStatus status;
   final List<PostModel> feed;
   final String? error;
-
   final Map<String, List<CommentModel>> commentsByPost;
+  final Set<String> expandedCommentIds;
 
   const PostState({
     this.status = PostStatus.initial,
     this.feed = const [],
     this.error,
     this.commentsByPost = const {},
+    this.expandedCommentIds = const {},
   });
 
   PostState copyWith({
@@ -23,12 +24,15 @@ class PostState extends Equatable {
     List<PostModel>? feed,
     String? error,
     Map<String, List<CommentModel>>? commentsByPost,
+    Set<String>? expandedCommentIds,
+    CommentModel? replyTarget,
   }) {
     return PostState(
       status: status ?? this.status,
       feed: feed ?? this.feed,
       error: error,
       commentsByPost: commentsByPost ?? this.commentsByPost,
+      expandedCommentIds: expandedCommentIds ?? this.expandedCommentIds,
     );
   }
 
@@ -40,5 +44,11 @@ class PostState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, feed, error, commentsByPost];
+  List<Object?> get props => [
+    status,
+    feed,
+    error,
+    commentsByPost,
+    expandedCommentIds,
+  ];
 }

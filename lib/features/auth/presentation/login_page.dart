@@ -31,10 +31,17 @@ class LoginPage extends StatelessWidget {
             child: BlocConsumer<LoginBloc, LoginState>(
               listener: (context, state) {
                 if (state.status == LoginStatus.success) {
-                  Get.snackbar('Success', 'Logged in');
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Logged in')));
+                  loginBloc.add(LoginReset());
                   Get.offAllNamed('/community');
                 } else if (state.status == LoginStatus.failure) {
-                  Get.snackbar('Error', state.error ?? 'Login failed');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.error ?? 'Login failed')),
+                  );
+
+                  loginBloc.add(LoginReset());
                 }
               },
               builder: (context, state) {

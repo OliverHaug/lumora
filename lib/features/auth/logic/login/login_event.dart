@@ -10,4 +10,6 @@ class LoginPasswordChanged extends LoginEvent {
   LoginPasswordChanged(this.password);
 }
 
+class LoginReset extends LoginEvent {}
+
 class LoginSubmitted extends LoginEvent {}

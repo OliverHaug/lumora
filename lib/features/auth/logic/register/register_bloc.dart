@@ -14,6 +14,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterConfirmPasswordChanged>(
       (e, emit) => emit(state.copyWith(confirmPassword: e.password)),
     );
+    on<RegisterReset>(
+      (e, emit) =>
+          emit(state.copyWith(status: RegisterStatus.initial, error: null)),
+    );
     on<RegisterSubmitted>(_onSubmit);
   }
 

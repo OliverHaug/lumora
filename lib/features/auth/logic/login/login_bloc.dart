@@ -11,6 +11,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginPasswordChanged>(
       (e, emit) => emit(state.copyWith(password: e.password)),
     );
+    on<LoginReset>(
+      (e, emit) =>
+          emit(state.copyWith(status: LoginStatus.initial, error: null)),
+    );
     on<LoginSubmitted>(_onSubmit);
   }
 

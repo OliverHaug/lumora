@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
 
@@ -7,15 +9,21 @@ class PostCard extends StatelessWidget {
     super.key,
     required this.post,
     required this.onLike,
-    this.onComments,
+    this.onEdit,
+    this.onDelete,
   });
 
   final PostModel post;
   final VoidCallback onLike;
-  final VoidCallback? onComments;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
+    final supabase = Get.find<SupabaseClient>();
+    final uid = supabase.auth.currentUser?.id;
+    final isMine = uid != null && uid == post.author.id;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
@@ -110,22 +118,39 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
 
-                if (onComments != null) ...[
+                const SizedBox(width: 18),
+                Icon(
+                  Icons.mode_comment_outlined,
+                  color: AppColors.black.withOpacity(.6),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  '${post.commentsCount}',
+                  style: TextStyle(
+                    color: AppColors.black.withOpacity(.6),
+                    fontSize: 16,
+                  ),
+                ),
+                if (isMine && (onEdit != null || onDelete != null)) ...[
                   const SizedBox(width: 18),
-                  IconButton(
-                    icon: Icon(
-                      Icons.mode_comment_outlined,
-                      color: AppColors.black.withOpacity(.6),
+                  if (onEdit != null)
+                    IconButton(
+                      icon: Icon(
+                        Icons.edit_outlined,
+                        color: AppColors.black.withOpacity(.6),
+                      ),
+                      tooltip: 'Edit post',
+                      onPressed: onEdit,
                     ),
-                    onPressed: onComments,
-                  ),
-                  Text(
-                    '${post.commentsCount}',
-                    style: TextStyle(
-                      color: AppColors.black.withOpacity(.6),
-                      fontSize: 16,
+                  if (onDelete != null)
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: AppColors.black.withOpacity(.6),
+                      ),
+                      tooltip: 'Delete post',
+                      onPressed: onDelete,
                     ),
-                  ),
                 ],
               ],
             ),
