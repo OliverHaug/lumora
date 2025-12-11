@@ -35,7 +35,7 @@ class PostRepository {
         .select('''
           id, content, image_url, created_at,
           likes_count, comments_count,
-          author:author_id (id, name, avatar_url),
+          author:author_id (id, name, avatar_url, role),
           post_likes (user_id)
         ''')
         .order('created_at', ascending: false)
@@ -56,7 +56,7 @@ class PostRepository {
         .select('''
           id, post_id, parent_id, content, created_at,
           replies_count,
-          author:author_id (id, name, avatar_url),
+          author:author_id (id, name, avatar_url, role),
           comment_likes (user_id)
         ''')
         .eq('post_id', postId)
@@ -81,7 +81,7 @@ class PostRepository {
         .select('''
           id, post_id, parent_id, content, created_at,
           replies_count,
-          author:author_id (id, name, avatar_url),
+          author:author_id (id, name, avatar_url, role),
           comment_likes (user_id)
         ''')
         .eq('parent_id', parentId)
@@ -183,7 +183,7 @@ class PostRepository {
         .select('''
         id, post_id, parent_id, content, created_at,
         replies_count,
-        author:author_id (id, name, avatar_url),
+        author:author_id (id, name, avatar_url, role),
         comment_likes (user_id)
       ''')
         .eq('id', newId)

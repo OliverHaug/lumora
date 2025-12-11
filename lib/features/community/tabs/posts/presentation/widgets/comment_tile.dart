@@ -50,6 +50,8 @@ class CommentTile extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: 8),
+                      Text(comment.author.role),
+                      const SizedBox(width: 8),
                       Text(
                         _timeAgo(comment.createdAt),
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -222,6 +224,8 @@ class _RepliesList extends StatelessWidget {
                           reply.author.name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
+                        const SizedBox(width: 8),
+                        Text(reply.author.role),
                         const SizedBox(width: 8),
                         Text(
                           CommentTile._timeAgo(reply.createdAt),

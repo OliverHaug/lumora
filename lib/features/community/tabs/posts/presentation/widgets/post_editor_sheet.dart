@@ -112,7 +112,7 @@ class PostEditorBottomSheet extends StatelessWidget {
                   hintText: "What's on your mind?",
                   border: OutlineInputBorder(),
                 ),
-                onSubmitted: (_) => submit(),
+                onChanged: (v) => Get.find<PostEditorCubit>().textChanged(v),
               ),
               const SizedBox(height: 12),
 

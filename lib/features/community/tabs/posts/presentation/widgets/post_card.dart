@@ -44,6 +44,7 @@ class PostCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
                   radius: 22,
@@ -55,15 +56,25 @@ class PostCard extends StatelessWidget {
                       : null,
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  post.author.name,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      post.author.name,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    Text(post.author.role),
+                  ],
                 ),
+
+                const SizedBox(width: 12),
+
                 const SizedBox(width: 12),
                 Text(
                   _timeShort(post.createdAt),
                   style: TextStyle(color: AppColors.black.withOpacity(.55)),
                 ),
+                Spacer(),
               ],
             ),
           ),
