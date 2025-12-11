@@ -8,6 +8,9 @@ class AuthRepository {
     required String email,
     required String password,
   }) {
+    if (email == 'admin') {
+      email = 'admin@xyz.local';
+    }
     return _client.auth.signInWithPassword(email: email, password: password);
   }
 

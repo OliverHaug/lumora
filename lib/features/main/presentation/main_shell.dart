@@ -7,6 +7,7 @@ import 'package:xyz/features/community/presentation/community_page.dart';
 import 'package:xyz/features/main/logic/main_bloc.dart';
 import 'package:xyz/features/main/logic/main_event.dart';
 import 'package:xyz/features/main/logic/main_state.dart';
+import 'package:xyz/features/profile/presentation/profile_page.dart';
 
 class MainShell extends StatelessWidget {
   const MainShell({super.key});
@@ -25,7 +26,7 @@ class MainShell extends StatelessWidget {
             Scaffold(),
             Scaffold(),
             Scaffold(),
-            Scaffold(),
+            ProfilePage(),
           ];
 
           return Scaffold(
