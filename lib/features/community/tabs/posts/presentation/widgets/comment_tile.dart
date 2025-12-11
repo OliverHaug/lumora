@@ -6,6 +6,7 @@ import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
+import 'package:xyz/features/community/tabs/posts/presentation/widgets/app_bottom_sheet_container.dart';
 
 class CommentTile extends StatelessWidget {
   final String postId;
@@ -343,25 +344,16 @@ Future<void> showReplyBottomSheet(
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (ctx) {
-      final bottom = MediaQuery.of(ctx).viewInsets.bottom;
-
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 12,
-          bottom: bottom + 16,
-        ),
+      return AppBottomSheetContainer(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // kleiner „Header“
             Row(
               children: [
                 Expanded(
@@ -441,13 +433,11 @@ Future<void> showEditCommentSheet(
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (sheetContext) {
-      final bottom = MediaQuery.of(sheetContext).viewInsets.bottom;
-
       void submit() {
         final text = controller.text.trim();
         if (text.isEmpty || text == comment.content) {
@@ -462,17 +452,10 @@ Future<void> showEditCommentSheet(
             newContent: text,
           ),
         );
-
         Navigator.of(sheetContext).pop();
       }
 
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 12,
-          bottom: bottom + 16,
-        ),
+      return AppBottomSheetContainer(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

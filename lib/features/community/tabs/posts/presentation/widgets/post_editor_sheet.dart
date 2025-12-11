@@ -9,6 +9,7 @@ import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post_edit/post_editor_cubit.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post_edit/post_editor_state.dart';
+import 'package:xyz/features/community/tabs/posts/presentation/widgets/app_bottom_sheet_container.dart';
 
 class PostEditorBottomSheet extends StatelessWidget {
   final PostModel? initialPost;
@@ -160,16 +161,16 @@ Future<void> showPostEditorSheet(
   final repo = Get.find<PostRepository>();
 
   return showModalBottomSheet(
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
     context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
     builder: (_) {
       return BlocProvider(
         create: (_) =>
             PostEditorCubit(repo: repo, postBloc: bloc, initialPost: post),
-        child: PostEditorBottomSheet(initialPost: post),
+        child: AppBottomSheetContainer(
+          child: PostEditorBottomSheet(initialPost: post),
+        ),
       );
     },
   );
