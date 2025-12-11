@@ -16,7 +16,9 @@ class PostEditorBottomSheet extends StatelessWidget {
   final PostModel? initialPost;
 
   PostEditorBottomSheet({super.key, this.initialPost})
-    : _textController = TextEditingController(text: initialPost?.content ?? '');
+    : _textController = TextEditingController(
+        text: initialPost?.content ?? Get.find<PostEditorCubit>().state.text,
+      );
 
   final TextEditingController _textController;
 
