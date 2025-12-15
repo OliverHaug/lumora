@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/widgets/app_bottom_sheet_container.dart';
+import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
+import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
+import 'package:xyz/features/community/tabs/posts/presentation/widgets/comment_editor_sheet.dart';
 
 class CommentTile extends StatelessWidget {
   final String postId;
@@ -37,9 +37,9 @@ class CommentTile extends StatelessWidget {
               radius: 20,
               backgroundImage: comment.author.avatarUrl != null
                   ? NetworkImage(comment.author.avatarUrl!)
-                  : AssetImage('assets/img/189.jpg'),
+                  : const AssetImage('assets/img/189.jpg') as ImageProvider,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,10 +64,11 @@ class CommentTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(comment.content),
                   const SizedBox(height: 8),
+
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => context.read<PostBloc>().add(
+                        onTap: () => context.read<CommentsBloc>().add(
                           CommentLikeToggled(
                             postId: postId,
                             commentId: comment.id,
@@ -86,20 +87,50 @@ class CommentTile extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text('${comment.likesCount}'),
+                            if (isMine) ...[
+                              const SizedBox(width: 18),
+
+                              IconButton(
+                                icon: Icon(
+                                  Icons.edit_outlined,
+                                  color: AppColors.black.withOpacity(.6),
+                                ),
+                                tooltip: 'Edit post',
+                                onPressed: () => showEditCommentSheet(
+                                  context,
+                                  postId: postId,
+                                  comment: comment,
+                                ),
+                              ),
+
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete_outline,
+                                  color: AppColors.black.withOpacity(.6),
+                                ),
+                                tooltip: 'Delete post',
+                                onPressed: () => _confirmDeleteComment(
+                                  context,
+                                  comment.id,
+                                  postId,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),
+
                       const SizedBox(width: 16),
+
                       GestureDetector(
-                        onTap: () => showReplyBottomSheet(
-                          context,
-                          postId: postId,
-                          parent: comment,
+                        onTap: () => context.read<CommentsBloc>().add(
+                          ReplyTargetSet(postId: postId, target: comment),
                         ),
                         child: Text(
                           'Reply',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.accent,
                           ),
                         ),
                       ),
@@ -107,19 +138,16 @@ class CommentTile extends StatelessWidget {
                       if (comment.repliesCount > 0) ...[
                         const SizedBox(width: 18),
                         GestureDetector(
-                          onTap: () {
-                            context.read<PostBloc>().add(
-                              CommentRepliesToggled(
-                                postId: postId,
-                                commentId: comment.id,
-                              ),
-                            );
-                          },
+                          onTap: () => context.read<CommentsBloc>().add(
+                            CommentRepliesToggled(
+                              postId: postId,
+                              commentId: comment.id,
+                            ),
+                          ),
                           child: Text(
                             isExpanded
                                 ? 'Hide replies'
-                                : 'View ${comment.repliesCount} repl'
-                                      '${comment.repliesCount == 1 ? 'y' : 'ies'}',
+                                : 'View ${comment.repliesCount} repl${comment.repliesCount == 1 ? 'y' : 'ies'}',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.amber[700],
                               fontWeight: FontWeight.w600,
@@ -127,28 +155,6 @@ class CommentTile extends StatelessWidget {
                           ),
                         ),
                       ],
-
-                      if (isMine)
-                        PopupMenuButton<String>(
-                          onSelected: (value) {
-                            if (value == 'edit') {
-                              showEditCommentSheet(
-                                context,
-                                postId: postId,
-                                comment: comment,
-                              );
-                            } else if (value == 'delete') {
-                              _confirmDelete(context, postId, comment);
-                            }
-                          },
-                          itemBuilder: (ctx) => const [
-                            PopupMenuItem(value: 'edit', child: Text('Edit')),
-                            PopupMenuItem(
-                              value: 'delete',
-                              child: Text('Delete'),
-                            ),
-                          ],
-                        ),
                     ],
                   ),
                 ],
@@ -161,14 +167,13 @@ class CommentTile extends StatelessWidget {
             comment.replies != null &&
             comment.replies!.isNotEmpty) ...[
           const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(margin: const EdgeInsets.only(left: 20, right: 20)),
-              Expanded(
-                child: _RepliesList(postId: postId, replies: comment.replies!),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 36),
+            child: _RepliesList(
+              postId: postId,
+              replies: comment.replies!,
+              currentUserId: currentUserId,
+            ),
           ),
         ],
       ],
@@ -186,33 +191,35 @@ class CommentTile extends StatelessWidget {
 
 class _RepliesList extends StatelessWidget {
   final String postId;
+  final String? currentUserId;
   final List<CommentModel> replies;
 
-  const _RepliesList({required this.postId, required this.replies});
+  const _RepliesList({
+    required this.postId,
+    required this.replies,
+    required this.currentUserId,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final supabase = Get.find<SupabaseClient>();
-    final currentUserId = supabase.auth.currentUser?.id;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: replies.map((reply) {
-        final isMine =
-            currentUserId != null && currentUserId == reply.author.id;
+        final isMine = currentUserId == reply.author.id;
         return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
+          padding: const EdgeInsets.only(bottom: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(height: 80, width: 1, color: AppColors.accent),
-              const SizedBox(width: 15),
+              const SizedBox(width: 12),
               CircleAvatar(
                 radius: 16,
                 backgroundImage: reply.author.avatarUrl != null
                     ? NetworkImage(reply.author.avatarUrl!)
-                    : AssetImage('assets/img/189.jpg'),
+                    : const AssetImage('assets/img/189.jpg') as ImageProvider,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -242,7 +249,7 @@ class _RepliesList extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => context.read<PostBloc>().add(
+                          onTap: () => context.read<CommentsBloc>().add(
                             CommentLikeToggled(
                               postId: postId,
                               commentId: reply.id,
@@ -261,68 +268,53 @@ class _RepliesList extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Text('${reply.likesCount}'),
+                              if (isMine) ...[
+                                const SizedBox(width: 18),
+
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit_outlined,
+                                    color: AppColors.black.withOpacity(.6),
+                                  ),
+                                  tooltip: 'Edit post',
+                                  onPressed: () => showEditCommentSheet(
+                                    context,
+                                    postId: postId,
+                                    comment: reply,
+                                  ),
+                                ),
+
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete_outline,
+                                    color: AppColors.black.withOpacity(.6),
+                                  ),
+                                  tooltip: 'Delete post',
+                                  onPressed: () => _confirmDeleteComment(
+                                    context,
+                                    reply.id,
+                                    postId,
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
-                          onTap: () => showReplyBottomSheet(
-                            context,
-                            postId: postId,
-                            parent: reply,
+                          onTap: () => context.read<CommentsBloc>().add(
+                            ReplyTargetSet(postId: postId, target: reply),
                           ),
                           child: Text(
                             'Reply',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.accent,
                             ),
                           ),
                         ),
-                        if (isMine) ...[
-                          const SizedBox(width: 12),
-                          GestureDetector(
-                            onTap: () => showEditCommentSheet(
-                              context,
-                              postId: postId,
-                              comment: reply,
-                            ),
-                            child: Text(
-                              "Edit",
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          GestureDetector(
-                            onTap: () => _confirmDelete(context, postId, reply),
-                            child: Text(
-                              "Delete",
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
                       ],
                     ),
-
-                    // Falls dieses Reply selbst wieder Replies hat,
-                    // werden sie dank _loadThread schon in reply.replies hängen
-                    if (reply.replies != null && reply.replies!.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _RepliesList(
-                              postId: postId,
-                              replies: reply.replies!,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -334,173 +326,10 @@ class _RepliesList extends StatelessWidget {
   }
 }
 
-Future<void> showReplyBottomSheet(
-  BuildContext context, {
-  required String postId,
-  required CommentModel parent,
-}) {
-  final controller = TextEditingController();
-
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (ctx) {
-      return AppBottomSheetContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Reply to ${parent.author.name}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(ctx).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              parent.content,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Write your reply...',
-                border: OutlineInputBorder(),
-              ),
-              minLines: 1,
-              maxLines: 5,
-              onSubmitted: (_) => _submitReply(ctx, controller, postId, parent),
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton.icon(
-                onPressed: () => _submitReply(ctx, controller, postId, parent),
-                icon: const Icon(Icons.send, size: 18),
-                label: const Text('Reply'),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-void _submitReply(
-  BuildContext ctx,
-  TextEditingController controller,
-  String postId,
-  CommentModel parent,
-) {
-  final text = controller.text.trim();
-  if (text.isEmpty) return;
-
-  Get.find<PostBloc>().add(
-    CommentSubmitted(postId: postId, content: text, parentId: parent.id),
-  );
-
-  Navigator.of(ctx).pop();
-}
-
-Future<void> showEditCommentSheet(
-  BuildContext context, {
-  required String postId,
-  required CommentModel comment,
-}) {
-  final controller = TextEditingController(text: comment.content);
-  final bloc = context.read<PostBloc>();
-
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (sheetContext) {
-      void submit() {
-        final text = controller.text.trim();
-        if (text.isEmpty || text == comment.content) {
-          Navigator.of(sheetContext).pop();
-          return;
-        }
-
-        bloc.add(
-          CommentEditSubmitted(
-            postId: postId,
-            commentId: comment.id,
-            newContent: text,
-          ),
-        );
-        Navigator.of(sheetContext).pop();
-      }
-
-      return AppBottomSheetContainer(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Text(
-                  'Edit comment',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(sheetContext).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              autofocus: true,
-              maxLines: 5,
-              minLines: 1,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
-              onSubmitted: (_) => submit(),
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: submit,
-                child: const Text('Save'),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-Future<void> _confirmDelete(
+Future<void> _confirmDeleteComment(
   BuildContext context,
+  String commentId,
   String postId,
-  CommentModel comment,
 ) async {
   final confirmed =
       await showDialog<bool>(
@@ -524,7 +353,7 @@ Future<void> _confirmDelete(
 
   if (!confirmed) return;
 
-  context.read<PostBloc>().add(
-    CommentDeleteRequested(postId: postId, commentId: comment.id),
+  context.read<CommentsBloc>().add(
+    CommentDeleteRequested(commentId: commentId, postId: postId),
   );
 }

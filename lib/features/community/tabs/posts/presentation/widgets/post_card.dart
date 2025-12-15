@@ -92,7 +92,7 @@ class PostCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: AspectRatio(
-                  aspectRatio: 4 / 3,
+                  aspectRatio: 4 / 4,
                   child: Image.network(
                     post.imageUrl!,
                     width: double.infinity,

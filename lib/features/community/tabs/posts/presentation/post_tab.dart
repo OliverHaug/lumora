@@ -1,3 +1,4 @@
+// ... imports bleiben, aber PostCommentsRequested entfernen!
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -17,16 +18,14 @@ class PostTab extends StatelessWidget {
 
     if (bloc.state.status == PostStatus.initial) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!bloc.isClosed) {
-          bloc.add(PostRequested());
-        }
+        if (!bloc.isClosed) bloc.add(PostRequested());
       });
     }
 
     return Scaffold(
       floatingActionButton: IconButton.filled(
         onPressed: () => showPostEditorSheet(context, bloc: bloc),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
       body: BlocProvider.value(
         value: bloc,
@@ -56,7 +55,6 @@ class PostTab extends StatelessWidget {
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
                       Get.toNamed('/community/tweet', arguments: post);
-                      ctx.read<PostBloc>().add(PostCommentsRequested(post.id));
                     },
                     child: PostCard(
                       post: post,
@@ -75,84 +73,6 @@ class PostTab extends StatelessWidget {
       ),
     );
   }
-}
-
-void _showEditPostSheet(BuildContext context, PostModel post, PostBloc bloc) {
-  final controller = TextEditingController(text: post.content);
-
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (sheetContext) {
-      final bottom = MediaQuery.of(sheetContext).viewInsets.bottom;
-
-      void submit() {
-        final text = controller.text.trim();
-        if (text.isEmpty || text == post.content) {
-          Navigator.of(sheetContext).pop();
-          return;
-        }
-
-        bloc.add(
-          PostEditSubmitted(
-            postId: post.id,
-            content: text,
-            imageUrl: post.imageUrl, // falls du das Feld hast
-          ),
-        );
-
-        Navigator.of(sheetContext).pop();
-      }
-
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: bottom + 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Text(
-                  'Edit post',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(sheetContext).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: controller,
-              autofocus: true,
-              minLines: 3,
-              maxLines: 6,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
-              onSubmitted: (_) => submit(),
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: submit,
-                child: const Text('Save'),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 }
 
 Future<void> _confirmDeletePost(

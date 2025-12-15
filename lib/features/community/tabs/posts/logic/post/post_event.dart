@@ -34,52 +34,8 @@ class PostLikeToggled extends PostEvent {
   PostLikeToggled(this.postId);
 }
 
-class CommentLikeToggled extends PostEvent {
+class PostCommentsCountPatched extends PostEvent {
   final String postId;
-  final String commentId;
-
-  CommentLikeToggled({required this.postId, required this.commentId});
-}
-
-class PostCommentsRequested extends PostEvent {
-  final String postId;
-  PostCommentsRequested(this.postId);
-}
-
-class CommentRepliesToggled extends PostEvent {
-  final String postId;
-  final String commentId;
-
-  CommentRepliesToggled({required this.postId, required this.commentId});
-}
-
-class CommentSubmitted extends PostEvent {
-  final String postId;
-  final String content;
-  final String? parentId;
-
-  CommentSubmitted({
-    required this.postId,
-    required this.content,
-    this.parentId,
-  });
-}
-
-class CommentEditSubmitted extends PostEvent {
-  final String postId;
-  final String commentId;
-  final String newContent;
-
-  CommentEditSubmitted({
-    required this.postId,
-    required this.commentId,
-    required this.newContent,
-  });
-}
-
-class CommentDeleteRequested extends PostEvent {
-  final String postId;
-  final String commentId;
-
-  CommentDeleteRequested({required this.postId, required this.commentId});
+  final int delta;
+  PostCommentsCountPatched({required this.postId, required this.delta});
 }
