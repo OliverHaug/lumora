@@ -10,8 +10,10 @@ import 'package:xyz/features/community/tabs/following/data/circle_repository.dar
 import 'package:xyz/features/community/tabs/following/logic/circle_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
+import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
 import 'package:xyz/features/main/logic/main_bloc.dart';
-import 'package:xyz/features/profile/logic/profile_bloc.dart';
+import 'package:xyz/features/settings/logic/settings_bloc.dart';
 
 class AppBindings extends Bindings {
   @override
@@ -30,13 +32,21 @@ class AppBindings extends Bindings {
     //community
     Get.put<PostRepository>(PostRepository(client), permanent: true);
     Get.put<CircleRepository>(CircleRepository(client), permanent: true);
+    Get.put<ProfileRepository>(ProfileRepository(client), permanent: true);
 
     Get.lazyPut(() => CommunityBloc());
     Get.lazyPut(() => MainBloc());
     Get.lazyPut(() => PostBloc(Get.find<PostRepository>()), fenix: true);
     Get.lazyPut(() => CircleBloc(Get.find<CircleRepository>()), fenix: true);
+    Get.lazyPut(
+      () => ProfileBloc(
+        Get.find<ProfileRepository>(),
+        Get.find<PostRepository>(),
+      ),
+      fenix: true,
+    );
 
     //profile
-    Get.lazyPut(() => ProfileBloc(Get.find<AuthRepository>()), fenix: true);
+    Get.lazyPut(() => SettingsBloc(Get.find<AuthRepository>()), fenix: true);
   }
 }

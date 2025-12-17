@@ -49,6 +49,26 @@ class PostRepository {
         .toList();
   }
 
+  Future<List<PostModel>> fetchPostsByUser({
+    required String userId,
+    int limit = 25,
+  }) async {
+    final res = await _client
+        .from('posts')
+        .select('''
+          id, content, image_url, created_at,
+          likes_count, comments_count,
+          author:author_id (id, name, role, avatar_url),
+          post_likes (user_id)
+      ''')
+        .eq('author_id', userId)
+        .order('created_at', ascending: false)
+        .limit(limit);
+
+    final list = (res as List).cast<Map<String, dynamic>>();
+    return list.map(PostModel.fromMap).toList();
+  }
+
   Future<List<CommentModel>> fetchComments(String postId) async {
     final uid = _client.auth.currentUser?.id;
     final data = await _client

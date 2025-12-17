@@ -7,6 +7,7 @@ import 'package:xyz/features/community/logic/community_event.dart';
 import 'package:xyz/features/community/logic/community_state.dart';
 import 'package:xyz/features/community/tabs/following/presentation/following_tab.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/post_tab.dart';
+import 'package:xyz/features/community/tabs/profile/presentation/profile_tab.dart';
 
 class CommunityPage extends StatelessWidget {
   const CommunityPage({super.key});
@@ -21,8 +22,12 @@ class CommunityPage extends StatelessWidget {
         builder: (context, state) {
           final index = state.tabIndex;
 
-          final tabs = const [PostTab(), FollowingTab(), Scaffold()];
-          final labels = ['Posts', 'Following', 'MyPosts'];
+          final tabs = [
+            PostTab(),
+            FollowingTab(),
+            ProfileTab(userIdToShow: state.profileUserIdToShow),
+          ];
+          final labels = ['Posts', 'Following', 'Profile'];
 
           return SafeArea(
             child: Column(

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/profile/data/user_model.dart';
+import 'package:xyz/features/settings/data/user_model.dart';
 
 class CommentModel extends Equatable {
   final String id;

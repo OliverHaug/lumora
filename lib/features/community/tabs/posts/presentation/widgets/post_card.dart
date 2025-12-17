@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xyz/core/theme/app_colors.dart';
+import 'package:xyz/features/community/logic/community_bloc.dart';
+import 'package:xyz/features/community/logic/community_event.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
 
 class PostCard extends StatelessWidget {
@@ -46,25 +49,39 @@ class PostCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 22,
-                  backgroundImage: (post.author.avatarUrl != null)
-                      ? NetworkImage(post.author.avatarUrl!)
-                      : null,
-                  child: (post.author.avatarUrl == null)
-                      ? const Icon(Icons.person)
-                      : null,
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      post.author.name,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    Text(post.author.role),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    print(post.author.id);
+                    context.read<CommunityBloc>().add(
+                      CommunityShowProfile(post.author.id),
+                    );
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 22,
+                        backgroundImage: (post.author.avatarUrl != null)
+                            ? NetworkImage(post.author.avatarUrl!)
+                            : null,
+                        child: (post.author.avatarUrl == null)
+                            ? const Icon(Icons.person)
+                            : null,
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post.author.name,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          Text(post.author.role),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 const SizedBox(width: 12),
