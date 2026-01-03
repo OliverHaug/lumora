@@ -70,7 +70,9 @@ class CommunityPage extends StatelessWidget {
                                             : FontWeight.w700,
                                         color: selected
                                             ? AppColors.black
-                                            : AppColors.black.withOpacity(.6),
+                                            : AppColors.black.withValues(
+                                                alpha: .6,
+                                              ),
                                       ),
                                     ),
                                   ),

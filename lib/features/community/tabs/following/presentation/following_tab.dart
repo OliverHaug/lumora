@@ -123,7 +123,7 @@ class _FollowingView extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w800,
             letterSpacing: 1.0,
-            color: Colors.black.withOpacity(.55),
+            color: Colors.black.withValues(alpha: .55),
           ),
         ),
         const SizedBox(height: 10),
@@ -152,7 +152,7 @@ class _FollowingView extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1.0,
-                color: Colors.black.withOpacity(.55),
+                color: Colors.black.withValues(alpha: .55),
               ),
             ),
             const Spacer(),
@@ -210,7 +210,7 @@ class _DiscoverView extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w800,
             letterSpacing: 1.0,
-            color: Colors.black.withOpacity(.55),
+            color: Colors.black.withValues(alpha: .55),
           ),
         ),
         const SizedBox(height: 10),

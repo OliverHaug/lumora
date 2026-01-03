@@ -59,7 +59,7 @@ class CommentComposerBar extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: AppColors.accent.withOpacity(.5),
+                        color: AppColors.accent.withValues(alpha: .5),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(

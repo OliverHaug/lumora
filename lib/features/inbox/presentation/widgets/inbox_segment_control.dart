@@ -1,49 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:xyz/core/theme/app_colors.dart';
-import '../../logic/circle_event.dart';
+import 'package:xyz/features/inbox/logic/inbox_event.dart';
 
-class CircleSegmentedControl extends StatelessWidget {
-  final CircleTabMode mode;
-  final ValueChanged<CircleTabMode> onChanged;
+class InboxSegmentedControl extends StatelessWidget {
+  final InboxTabMode mode;
+  final ValueChanged<InboxTabMode> onChanged;
+  final bool notificationsHasDot;
 
-  const CircleSegmentedControl({
+  const InboxSegmentedControl({
     super.key,
     required this.mode,
     required this.onChanged,
+    this.notificationsHasDot = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isFollowing = mode == CircleTabMode.following;
+    final isMessages = mode == InboxTabMode.messages;
 
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withValues(alpha: .65),
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-            color: Colors.black.withValues(alpha: .06),
-          ),
-        ],
       ),
       child: Row(
         children: [
           Expanded(
             child: _Chip(
-              label: 'Following',
-              selected: isFollowing,
-              onTap: () => onChanged(CircleTabMode.following),
+              label: 'Messages',
+              selected: isMessages,
+              onTap: () => onChanged(InboxTabMode.messages),
             ),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _Chip(
-              label: 'Discover',
-              selected: !isFollowing,
-              onTap: () => onChanged(CircleTabMode.discover),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                _Chip(
+                  label: 'Notifications',
+                  selected: !isMessages,
+                  onTap: () => onChanged(InboxTabMode.notifications),
+                ),
+                if (notificationsHasDot)
+                  Positioned(
+                    right: 18,
+                    top: 10,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
@@ -78,7 +91,7 @@ class _Chip extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: selected
                   ? Colors.white
                   : Colors.black.withValues(alpha: .7),

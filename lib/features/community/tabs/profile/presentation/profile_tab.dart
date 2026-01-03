@@ -25,8 +25,6 @@ class ProfileTab extends StatelessWidget {
 
     // Wenn userId wechselt: neu laden
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      print(bloc.state.viewingUserId);
-      print(userIdToShow);
       if (bloc.state.viewingUserId != userIdToShow) {
         bloc.add(ProfileUserChanged(userId: userIdToShow));
       }
@@ -99,7 +97,9 @@ class ProfileTab extends StatelessWidget {
                       (user.bio?.trim().isNotEmpty ?? false)
                           ? user.bio!.trim()
                           : 'No bio yet.',
-                      style: TextStyle(color: Colors.black.withOpacity(.65)),
+                      style: TextStyle(
+                        color: Colors.black.withValues(alpha: .65),
+                      ),
                     ),
                     const SizedBox(height: 12),
                     // My Healing Philosophy (Accordion Card)

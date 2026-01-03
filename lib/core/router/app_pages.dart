@@ -17,5 +17,6 @@ class AppPages {
       page: () => const MainShell(),
       children: [GetPage(name: '/tweet', page: () => const PostDetail())],
     ),
+    //GetPage(name: '/inbox/chat', page: () => const ChatPage()),
   ];
 }

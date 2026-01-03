@@ -36,7 +36,7 @@ class PostCard extends StatelessWidget {
           BoxShadow(
             blurRadius: 10,
             offset: const Offset(0, 2),
-            color: AppColors.black.withOpacity(.06),
+            color: AppColors.black.withValues(alpha: .06),
           ),
         ],
       ),
@@ -51,7 +51,6 @@ class PostCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print(post.author.id);
                     context.read<CommunityBloc>().add(
                       CommunityShowProfile(post.author.id),
                     );
@@ -89,7 +88,9 @@ class PostCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Text(
                   _timeShort(post.createdAt),
-                  style: TextStyle(color: AppColors.black.withOpacity(.55)),
+                  style: TextStyle(
+                    color: AppColors.black.withValues(alpha: .55),
+                  ),
                 ),
                 Spacer(),
               ],
@@ -134,14 +135,14 @@ class PostCard extends StatelessWidget {
                     post.youLiked ? Icons.favorite : Icons.favorite_border,
                     color: post.youLiked
                         ? Colors.red
-                        : AppColors.black.withOpacity(.6),
+                        : AppColors.black.withValues(alpha: .6),
                   ),
                   onPressed: onLike,
                 ),
                 Text(
                   '${post.likesCount}',
                   style: TextStyle(
-                    color: AppColors.black.withOpacity(.6),
+                    color: AppColors.black.withValues(alpha: .6),
                     fontSize: 16,
                   ),
                 ),
@@ -149,13 +150,13 @@ class PostCard extends StatelessWidget {
                 const SizedBox(width: 18),
                 Icon(
                   Icons.mode_comment_outlined,
-                  color: AppColors.black.withOpacity(.6),
+                  color: AppColors.black.withValues(alpha: .6),
                 ),
                 const SizedBox(width: 12),
                 Text(
                   '${post.commentsCount}',
                   style: TextStyle(
-                    color: AppColors.black.withOpacity(.6),
+                    color: AppColors.black.withValues(alpha: .6),
                     fontSize: 16,
                   ),
                 ),
@@ -165,7 +166,7 @@ class PostCard extends StatelessWidget {
                     IconButton(
                       icon: Icon(
                         Icons.edit_outlined,
-                        color: AppColors.black.withOpacity(.6),
+                        color: AppColors.black.withValues(alpha: .6),
                       ),
                       tooltip: 'Edit post',
                       onPressed: onEdit,
@@ -174,7 +175,7 @@ class PostCard extends StatelessWidget {
                     IconButton(
                       icon: Icon(
                         Icons.delete_outline,
-                        color: AppColors.black.withOpacity(.6),
+                        color: AppColors.black.withValues(alpha: .6),
                       ),
                       tooltip: 'Delete post',
                       onPressed: onDelete,

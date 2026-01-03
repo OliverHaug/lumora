@@ -10,7 +10,7 @@ class AppTypography {
   static const wB = FontWeight.w700;
 
   static const Color _text = AppColors.black;
-  static Color _muted(double o) => _text.withOpacity(o);
+  static Color _muted(double o) => _text.withValues(alpha: o);
 
   static TextTheme lightTextTheme = TextTheme(
     headlineLarge: TextStyle(

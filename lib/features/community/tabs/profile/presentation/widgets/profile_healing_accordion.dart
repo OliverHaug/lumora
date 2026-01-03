@@ -35,7 +35,7 @@ class _ProfileHealingAccordionState extends State<ProfileHealingAccordion> {
           BoxShadow(
             blurRadius: 10,
             offset: const Offset(0, 2),
-            color: Colors.black.withOpacity(.05),
+            color: Colors.black.withValues(alpha: .05),
           ),
         ],
       ),
@@ -47,7 +47,7 @@ class _ProfileHealingAccordionState extends State<ProfileHealingAccordion> {
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: AppColors.accent.withOpacity(.12),
+                  color: AppColors.accent.withValues(alpha: .12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -81,7 +81,7 @@ class _ProfileHealingAccordionState extends State<ProfileHealingAccordion> {
                   widget.isMe
                       ? 'Answer a few questions to build your philosophy.'
                       : 'No philosophy yet.',
-                  style: TextStyle(color: Colors.black.withOpacity(.6)),
+                  style: TextStyle(color: Colors.black.withValues(alpha: .6)),
                 ),
               )
             else
@@ -118,7 +118,10 @@ class _QA extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           'A: $a',
-          style: TextStyle(color: Colors.black.withOpacity(.7), height: 1.35),
+          style: TextStyle(
+            color: Colors.black.withValues(alpha: .7),
+            height: 1.35,
+          ),
         ),
       ],
     );

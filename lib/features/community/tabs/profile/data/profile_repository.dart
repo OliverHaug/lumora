@@ -165,9 +165,7 @@ class ProfileRepository {
         .eq('id', currentUserId!)
         .single();
 
-    print("TEST");
     final oldPath = old['avatar_path'] as String?;
-    print(oldPath);
 
     await _deleteStorageObjectIfExists(bucket: 'avatars', path: oldPath);
 
@@ -224,17 +222,7 @@ class ProfileRepository {
     required String? path,
   }) async {
     if (path == null || path.trim().isEmpty) return;
-    print("JOOOOOOOOOOOOOOOOOOOOOOOLO");
-    try {
-      await _client.storage.from(bucket).remove([path]);
-    } catch (e) {
-      print(e);
-    }
-  }
 
-  String _newJpgPath() {
-    final uid = currentUserId;
-    if (uid == null) throw Exception('Not authenticated');
-    return '$uid/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    await _client.storage.from(bucket).remove([path]);
   }
 }

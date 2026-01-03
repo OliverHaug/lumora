@@ -31,7 +31,7 @@ class CircleUserTile extends StatelessWidget {
           BoxShadow(
             blurRadius: 12,
             offset: const Offset(0, 2),
-            color: Colors.black.withOpacity(.05),
+            color: Colors.black.withValues(alpha: .05),
           ),
         ],
       ),
@@ -61,7 +61,7 @@ class CircleUserTile extends StatelessWidget {
                   subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.black.withOpacity(.55)),
+                  style: TextStyle(color: Colors.black.withValues(alpha: .55)),
                 ),
               ],
             ),

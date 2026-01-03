@@ -1,13 +1,16 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:xyz/core/config/app_config.dart';
 
 class SupabaseConfig {
   static Future<void> init() async {
-    final url = dotenv.env['SUPABASE_URL'];
-    final anonKey = dotenv.env['SUPABASE_ANON'];
+    final url = AppConfig.supabaseUrl;
+    final anonKey = AppConfig.supabaseAnonKey;
 
     if (url == null || anonKey == null) {
-      throw Exception('Missing SUPABASE_URL or SUPABASE_ANON in .env');
+      throw Exception(
+        'Missing SUPABASE_URL or SUPABASE_ANON. '
+        'Provide via --dart-define or local .env',
+      );
     }
 
     await Supabase.initialize(

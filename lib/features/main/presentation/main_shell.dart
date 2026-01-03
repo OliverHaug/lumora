@@ -4,6 +4,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/presentation/community_page.dart';
+import 'package:xyz/features/inbox/presentation/inbox_page.dart';
 import 'package:xyz/features/main/logic/main_bloc.dart';
 import 'package:xyz/features/main/logic/main_event.dart';
 import 'package:xyz/features/main/logic/main_state.dart';
@@ -25,7 +26,7 @@ class MainShell extends StatelessWidget {
             CommunityPage(),
             Scaffold(),
             Scaffold(),
-            Scaffold(),
+            InboxPage(),
             ProfilePage(),
           ];
 
@@ -39,7 +40,7 @@ class MainShell extends StatelessWidget {
               destinations: const [
                 NavigationDestination(
                   icon: Icon(Icons.home_outlined),
-                  label: 'Home',
+                  label: 'Community',
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.favorite_border),
@@ -51,11 +52,11 @@ class MainShell extends StatelessWidget {
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.forum_outlined),
-                  label: 'Community',
+                  label: 'Inbox',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.person_outline),
-                  label: 'Profile',
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
                 ),
               ],
             ),

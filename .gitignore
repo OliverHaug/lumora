@@ -1,4 +1,6 @@
+###############################################################################
 # Miscellaneous
+###############################################################################
 *.class
 *.log
 *.pyc
@@ -12,34 +14,75 @@
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+###############################################################################
+# IDEs / Editors
+###############################################################################
+# IntelliJ / Android Studio
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
+# VS Code (optional – keep commented if you want to commit settings)
 #.vscode/
 
-# Flutter/Dart/Pub related
+###############################################################################
+# Flutter / Dart / Pub
+###############################################################################
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
 /coverage/
 
-# Symbolication related
-app.*.symbols
+###############################################################################
+# Environment / Secrets (CRITICAL)
+###############################################################################
+.env
+.env.*
+*.env
 
-# Obfuscation related
+###############################################################################
+# Logs
+###############################################################################
+*.log
+
+###############################################################################
+# Symbolication / Obfuscation
+###############################################################################
+app.*.symbols
 app.*.map.json
 
-# Android Studio will place build artifacts here
+###############################################################################
+# Android build outputs
+###############################################################################
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+###############################################################################
+# iOS / macOS
+###############################################################################
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+
+macos/Pods/
+macos/Flutter/ephemeral/
+
+###############################################################################
+# Web
+###############################################################################
+web/.dart_tool/
+web/build/
+
+###############################################################################
+# CI / OS
+###############################################################################
+Thumbs.db

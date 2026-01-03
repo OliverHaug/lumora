@@ -12,6 +12,10 @@ import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
+import 'package:xyz/features/inbox/data/inbox_repository.dart';
+import 'package:xyz/features/inbox/data/local/inbox_local_datasource.dart';
+import 'package:xyz/features/inbox/data/remote/inbox_remote_datasource.dart';
+import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
 import 'package:xyz/features/main/logic/main_bloc.dart';
 import 'package:xyz/features/settings/logic/settings_bloc.dart';
 
@@ -46,7 +50,18 @@ class AppBindings extends Bindings {
       fenix: true,
     );
 
-    //profile
+    //inbox
+    Get.put(InboxLocalDataSource());
+    Get.put(InboxRemoteDataSource(client));
+    Get.put(
+      InboxRepository(
+        Get.find<InboxRemoteDataSource>(),
+        Get.find<InboxLocalDataSource>(),
+      ),
+    );
+    Get.put(InboxBloc(Get.find<InboxRepository>()));
+
+    //settings
     Get.lazyPut(() => SettingsBloc(Get.find<AuthRepository>()), fenix: true);
   }
 }

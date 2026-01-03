@@ -30,6 +30,9 @@ class PostEditorBottomSheet extends StatelessWidget {
             imageQuality: 85,
           );
           if (img == null) return;
+
+          if (!context.mounted) return;
+
           context.read<PostEditorCubit>().imagePicked(img);
         }
 
@@ -41,7 +44,10 @@ class PostEditorBottomSheet extends StatelessWidget {
           try {
             await context.read<PostEditorCubit>().submit();
             if (context.mounted) Navigator.of(context).pop();
-          } catch (e) {}
+          } catch (e, st) {
+            debugPrint('post editor error: $e');
+            debugPrint('$st');
+          }
         }
 
         Widget? imageWidget;

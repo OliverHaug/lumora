@@ -57,7 +57,7 @@ class ProfileMomentsSlider extends StatelessWidget {
                     top: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.9),
+                        color: Colors.white.withValues(alpha: .9),
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: IconButton(

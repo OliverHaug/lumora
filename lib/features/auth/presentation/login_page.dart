@@ -79,7 +79,9 @@ class LoginPage extends StatelessWidget {
                                   horizontal: 0,
                                   vertical: 8,
                                 ),
-                                foregroundColor: Colors.black.withOpacity(.55),
+                                foregroundColor: Colors.black.withValues(
+                                  alpha: .55,
+                                ),
                               ),
                               child: Text(
                                 "Forgot password?",

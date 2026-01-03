@@ -24,7 +24,7 @@ class OptionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.accent.withOpacity(.6)),
+          border: Border.all(color: AppColors.accent.withValues(alpha: .6)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),

@@ -93,7 +93,7 @@ class CommentTile extends StatelessWidget {
                               IconButton(
                                 icon: Icon(
                                   Icons.edit_outlined,
-                                  color: AppColors.black.withOpacity(.6),
+                                  color: AppColors.black.withValues(alpha: .6),
                                 ),
                                 tooltip: 'Edit post',
                                 onPressed: () => showEditCommentSheet(
@@ -106,7 +106,7 @@ class CommentTile extends StatelessWidget {
                               IconButton(
                                 icon: Icon(
                                   Icons.delete_outline,
-                                  color: AppColors.black.withOpacity(.6),
+                                  color: AppColors.black.withValues(alpha: .6),
                                 ),
                                 tooltip: 'Delete post',
                                 onPressed: () => _confirmDeleteComment(
@@ -274,7 +274,9 @@ class _RepliesList extends StatelessWidget {
                                 IconButton(
                                   icon: Icon(
                                     Icons.edit_outlined,
-                                    color: AppColors.black.withOpacity(.6),
+                                    color: AppColors.black.withValues(
+                                      alpha: .6,
+                                    ),
                                   ),
                                   tooltip: 'Edit post',
                                   onPressed: () => showEditCommentSheet(
@@ -287,7 +289,9 @@ class _RepliesList extends StatelessWidget {
                                 IconButton(
                                   icon: Icon(
                                     Icons.delete_outline,
-                                    color: AppColors.black.withOpacity(.6),
+                                    color: AppColors.black.withValues(
+                                      alpha: .6,
+                                    ),
                                   ),
                                   tooltip: 'Delete post',
                                   onPressed: () => _confirmDeleteComment(
@@ -350,6 +354,8 @@ Future<void> _confirmDeleteComment(
         ),
       ) ??
       false;
+
+  if (!context.mounted) return;
 
   if (!confirmed) return;
 
