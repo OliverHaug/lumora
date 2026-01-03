@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialBinding: enableBindings ? AppBindings() : null,
       getPages: AppPages.routes,
-      initialRoute: '/splash',
+      initialRoute: enableBindings ? '/splash' : '/',
     );
   }
 }
