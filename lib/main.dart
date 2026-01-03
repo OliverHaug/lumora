@@ -24,9 +24,10 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, this.enableBindings = true});
+  const MyApp({super.key, this.enableBindings = true, this.testHome});
 
   final bool enableBindings;
+  final Widget? testHome;
 
   // This widget is the root of your application.
   @override
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialBinding: enableBindings ? AppBindings() : null,
       getPages: AppPages.routes,
-      initialRoute: enableBindings ? '/splash' : '/',
+      home: testHome,
+      initialRoute: testHome == null ? '/splash' : null,
     );
   }
 }
