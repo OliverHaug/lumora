@@ -24,7 +24,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.enableBindings = true});
+
+  final bool enableBindings;
 
   // This widget is the root of your application.
   @override
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'XYZ',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialBinding: AppBindings(),
+      initialBinding: enableBindings ? AppBindings() : null,
       getPages: AppPages.routes,
       initialRoute: '/splash',
     );
