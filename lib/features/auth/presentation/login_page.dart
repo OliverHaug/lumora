@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/auth/logic/login/login_bloc.dart';
-import 'package:xyz/features/auth/logic/login/login_event.dart';
-import 'package:xyz/features/auth/logic/login/login_state.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -37,12 +35,6 @@ class LoginPage extends ConsumerWidget {
                   ).showSnackBar(const SnackBar(content: Text('Logged in')));
                   loginBloc.add(LoginReset());
                   context.go('/community');
-                } else if (state.status == LoginStatus.failure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.error ?? 'Login failed')),
-                  );
-
-                  loginBloc.add(LoginReset());
                 }
               },
               builder: (context, state) {
@@ -94,6 +86,13 @@ class LoginPage extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
+                          if (state.status == LoginStatus.failure &&
+                              state.error != null) ...[
+                            Text(
+                              state.error!,
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ],
                           ElevatedButton(
                             onPressed: isLoading
                                 ? null

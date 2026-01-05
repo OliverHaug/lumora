@@ -1,12 +1,14 @@
+part of 'login_bloc.dart';
+
 enum LoginStatus { initial, loading, success, failure }
 
-class LoginState {
+class LoginState extends Equatable {
   final String email;
   final String password;
   final LoginStatus status;
   final String? error;
 
-  LoginState({
+  const LoginState({
     this.email = '',
     this.password = '',
     this.status = LoginStatus.initial,
@@ -24,4 +26,7 @@ class LoginState {
     status: status ?? this.status,
     error: error ?? this.error,
   );
+
+  @override
+  List<Object?> get props => [email, password, status, error];
 }

@@ -1,47 +1,81 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/auth/data/auth_repository.dart';
-import 'package:xyz/features/auth/logic/register/register_event.dart';
-import 'package:xyz/features/auth/logic/register/register_state.dart';
+import 'package:xyz/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:xyz/core/errors/result.dart';
+
+part 'register_event.dart';
+part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final AuthRepository _repo;
+  final SignUpUseCase _signUp;
 
-  RegisterBloc(this._repo) : super(RegisterState()) {
-    on<RegisterEmailChanged>((e, emit) => emit(state.copyWith(email: e.email)));
-    on<RegisterPasswordChanged>(
-      (e, emit) => emit(state.copyWith(password: e.password)),
-    );
-    on<RegisterConfirmPasswordChanged>(
-      (e, emit) => emit(state.copyWith(confirmPassword: e.password)),
-    );
-    on<RegisterReset>(
-      (e, emit) =>
-          emit(state.copyWith(status: RegisterStatus.initial, error: null)),
-    );
-    on<RegisterSubmitted>(_onSubmit);
+  RegisterBloc({required SignUpUseCase signUp})
+    : _signUp = signUp,
+      super(RegisterState()) {
+    on<RegisterEmailChanged>((e, emit) {
+      emit(state.copyWith(email: e.email, error: null));
+    });
+
+    on<RegisterPasswordChanged>((e, emit) {
+      emit(state.copyWith(password: e.password, error: null));
+    });
+    on<RegisterConfirmPasswordChanged>((e, emit) {
+      emit(state.copyWith(confirmPassword: e.confirmPassword, error: null));
+    });
+
+    on<RegisterSubmitted>(_onSubmitted);
   }
 
-  Future<void> _onSubmit(
+  Future<void> _onSubmitted(
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
-    emit(state.copyWith(status: RegisterStatus.loading));
+    final email = state.email.trim();
+    final password = state.password;
+    final confirm = state.confirmPassword;
 
-    if (state.password != state.confirmPassword) {
+    if (email.isEmpty || !email.contains('@')) {
       emit(
         state.copyWith(
           status: RegisterStatus.failure,
-          error: 'Passwords do not match',
+          error: 'Please enter a valid email.',
+        ),
+      );
+      return;
+    }
+    if (password.length < 8) {
+      emit(
+        state.copyWith(
+          status: RegisterStatus.failure,
+          error: 'Password must be at least 8 characters.',
+        ),
+      );
+      return;
+    }
+    if (password != confirm) {
+      emit(
+        state.copyWith(
+          status: RegisterStatus.failure,
+          error: 'Passwords do not match.',
         ),
       );
       return;
     }
 
-    try {
-      await _repo.register(state.email.trim(), state.password);
-      emit(state.copyWith(status: RegisterStatus.success));
-    } catch (e) {
-      emit(state.copyWith(status: RegisterStatus.failure, error: e.toString()));
+    emit(state.copyWith(status: RegisterStatus.loading, error: null));
+
+    final result = await _signUp(email: email, password: password);
+
+    if (result is Error<void>) {
+      emit(
+        state.copyWith(
+          status: RegisterStatus.failure,
+          error: result.failure.message,
+        ),
+      );
+      return;
     }
+
+    emit(state.copyWith(status: RegisterStatus.success));
   }
 }

@@ -1,20 +1,32 @@
-abstract class RegisterEvent {}
+part of 'register_bloc.dart';
+
+sealed class RegisterEvent extends Equatable {
+  const RegisterEvent();
+  @override
+  List<Object?> get props => [];
+}
 
 class RegisterEmailChanged extends RegisterEvent {
   final String email;
-  RegisterEmailChanged(this.email);
+  const RegisterEmailChanged(this.email);
+  @override
+  List<Object?> get props => [email];
 }
 
 class RegisterPasswordChanged extends RegisterEvent {
   final String password;
-  RegisterPasswordChanged(this.password);
+  const RegisterPasswordChanged(this.password);
+  @override
+  List<Object?> get props => [password];
 }
 
 class RegisterConfirmPasswordChanged extends RegisterEvent {
-  final String password;
-  RegisterConfirmPasswordChanged(this.password);
+  final String confirmPassword;
+  const RegisterConfirmPasswordChanged(this.confirmPassword);
+  @override
+  List<Object?> get props => [confirmPassword];
 }
 
-class RegisterReset extends RegisterEvent {}
-
-class RegisterSubmitted extends RegisterEvent {}
+class RegisterSubmitted extends RegisterEvent {
+  const RegisterSubmitted();
+}

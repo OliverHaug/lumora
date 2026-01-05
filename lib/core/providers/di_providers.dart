@@ -3,6 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Repos/Datasources
 import 'package:xyz/features/auth/data/auth_repository.dart';
+import 'package:xyz/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:xyz/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:xyz/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:xyz/features/community/tabs/following/data/circle_repository.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
@@ -29,6 +32,18 @@ final supabaseClientProvider = Provider<SupabaseClient>((ref) {
 /// --------------------
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(ref.watch(supabaseClientProvider));
+});
+
+final signInUseCaseProvider = Provider<SignInUseCase>((ref) {
+  return SignInUseCase(ref.watch(authRepositoryProvider));
+});
+
+final signUpUseCaseProvider = Provider<SignUpUseCase>((ref) {
+  return SignUpUseCase(ref.watch(authRepositoryProvider));
+});
+
+final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
+  return SignOutUseCase(ref.watch(authRepositoryProvider));
 });
 
 final postRepositoryProvider = Provider<PostRepository>((ref) {
@@ -62,13 +77,13 @@ final inboxRepositoryProvider = Provider<InboxRepository>((ref) {
 /// Blocs (autoDispose + close)
 /// --------------------
 final loginBlocProvider = Provider.autoDispose<LoginBloc>((ref) {
-  final bloc = LoginBloc(ref.watch(authRepositoryProvider));
+  final bloc = LoginBloc(signIn: ref.watch(signInUseCaseProvider));
   ref.onDispose(bloc.close);
   return bloc;
 });
 
 final registerBlocProvider = Provider.autoDispose<RegisterBloc>((ref) {
-  final bloc = RegisterBloc(ref.watch(authRepositoryProvider));
+  final bloc = RegisterBloc(signUp: ref.watch(signUpUseCaseProvider));
   ref.onDispose(bloc.close);
   return bloc;
 });

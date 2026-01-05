@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/auth/logic/register/register_bloc.dart';
-import 'package:xyz/features/auth/logic/register/register_event.dart';
-import 'package:xyz/features/auth/logic/register/register_state.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
@@ -24,25 +22,7 @@ class RegisterPage extends ConsumerWidget {
           child: BlocConsumer<RegisterBloc, RegisterState>(
             listener: (context, state) {
               if (state.status == RegisterStatus.success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Column(
-                      children: [Text('Success'), Text('Account created!')],
-                    ),
-                  ),
-                );
                 context.go('/community');
-              } else if (state.status == RegisterStatus.failure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Column(
-                      children: [
-                        Text('Error'),
-                        Text(state.error ?? 'Failed to register'),
-                      ],
-                    ),
-                  ),
-                );
               }
             },
             builder: (context, state) {
@@ -57,20 +37,37 @@ class RegisterPage extends ConsumerWidget {
                   const SizedBox(height: 16),
                   TextField(
                     obscureText: true,
+                    autofillHints: const [AutofillHints.newPassword],
                     onChanged: (v) =>
                         registerBloc.add(RegisterPasswordChanged(v)),
-                    decoration: const InputDecoration(hintText: 'Password'),
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                      helperText: 'Min. 8 characters',
+                    ),
                   ),
                   const SizedBox(height: 16),
                   TextField(
                     obscureText: true,
+                    autofillHints: const [AutofillHints.newPassword],
                     onChanged: (v) =>
                         registerBloc.add(RegisterConfirmPasswordChanged(v)),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Confirm Password',
+                      errorText:
+                          (state.confirmPassword.isNotEmpty &&
+                              !state.passwordsMatch)
+                          ? 'Passwords do not match'
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 24),
+                  if (state.status == RegisterStatus.failure &&
+                      state.error != null) ...[
+                    Text(
+                      state.error!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
                   ElevatedButton(
                     onPressed: isLoading
                         ? null

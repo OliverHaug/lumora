@@ -1,28 +1,47 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:xyz/core/errors/result.dart';
+import 'package:xyz/core/errors/supabase_error_mapper.dart';
 
 class AuthRepository {
-  final SupabaseClient _client;
   AuthRepository(this._client);
 
-  Future<AuthResponse> login({
+  final SupabaseClient _client;
+
+  Stream<AuthState> authStateChanges() => _client.auth.onAuthStateChange;
+
+  User? get currentUser => _client.auth.currentUser;
+
+  Future<Result<void>> signIn({
     required String email,
     required String password,
-  }) {
-    if (email == 'admin') {
-      email = 'admin@xyz.local';
+  }) async {
+    if (email == 'admin') email = 'admin@xyz.local';
+    try {
+      await _client.auth.signInWithPassword(email: email, password: password);
+      return const Success(null);
+    } catch (e) {
+      return Error(mapSupabaseError(e));
     }
-    return _client.auth.signInWithPassword(email: email, password: password);
   }
 
-  Future<AuthResponse> register(String email, String password) =>
-      _client.auth.signUp(
-        email: email,
-        password: password,
-        emailRedirectTo: 'myapp://auth-callback',
-      );
+  Future<Result<void>> signUp({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _client.auth.signUp(email: email, password: password);
+      return const Success(null);
+    } catch (e) {
+      return Error(mapSupabaseError(e));
+    }
+  }
 
-  Future<void> resetPassword(String email) =>
-      _client.auth.resetPasswordForEmail(email);
-
-  Future<void> signOut() => _client.auth.signOut();
+  Future<Result<void>> signOut() async {
+    try {
+      await _client.auth.signOut();
+      return const Success(null);
+    } catch (e) {
+      return Error(mapSupabaseError(e));
+    }
+  }
 }
