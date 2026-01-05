@@ -9,11 +9,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (!kIsWeb) {
+  /*if (!kIsWeb) {
     try {
       await dotenv.load(fileName: '.env');
     } catch (_) {}
-  }
+  }*/
   await SupabaseConfig.init();
   await Hive.initFlutter();
   runApp(const ProviderScope(child: MyApp()));
