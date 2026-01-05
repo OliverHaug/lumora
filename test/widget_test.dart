@@ -7,6 +7,6 @@ void main() {
     await tester.pumpWidget(ProviderScope(child: MyApp()));
 
     await tester.pump();
-    expect(true, isTrue);
+    expect(find.byType(MyApp), findsOneWidget);
   });
 }
