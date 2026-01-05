@@ -22,6 +22,7 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+.vscode/launch.json
 
 # VS Code (optional – keep commented if you want to commit settings)
 #.vscode/

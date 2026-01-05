@@ -1,29 +1,33 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
-  // Prefer --dart-define for CI/Prod/Web
-  static const supabaseUrlDefine = String.fromEnvironment('SUPABASE_URL');
-  static const supabaseAnonDefine = String.fromEnvironment('SUPABASE_ANON');
+  static const _supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 
-  static String? get supabaseUrl {
-    if (supabaseUrlDefine.isNotEmpty) return supabaseUrlDefine;
+  static const _supabaseAnon = String.fromEnvironment('SUPABASE_ANON');
 
-    try {
-      return dotenv.env['SUPABASE_URL'];
-    } catch (_) {
-      return null;
+  static String get supabaseUrl {
+    if (_supabaseUrl.isEmpty) {
+      throw const MissingConfigException('SUPABASE_URL');
     }
+    return _supabaseUrl;
   }
 
-  static String? get supabaseAnonKey {
-    if (supabaseAnonDefine.isNotEmpty) return supabaseAnonDefine;
-    try {
-      return dotenv.env['SUPABASE_ANON'];
-    } catch (_) {
-      return null;
+  static String get supabaseAnonKey {
+    if (_supabaseAnon.isEmpty) {
+      throw const MissingConfigException('SUPABASE_ANON');
     }
+    return _supabaseAnon;
   }
 
   static bool get isDebug => kDebugMode;
+}
+
+class MissingConfigException implements Exception {
+  final String key;
+  const MissingConfigException(this.key);
+
+  @override
+  String toString() =>
+      'Missing required compile-time config: $key '
+      '(provide via --dart-define=$key=...)';
 }
