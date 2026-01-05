@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
 
-Future<void> showEditAvatarSheet(BuildContext context) async {
+Future<void> showEditAvatarSheet(
+  BuildContext context,
+  ProfileRepository repo,
+  ProfileBloc bloc,
+) async {
   final picker = ImagePicker();
 
   return showModalBottomSheet(
@@ -42,11 +44,9 @@ Future<void> showEditAvatarSheet(BuildContext context) async {
                   );
                   if (file == null) return;
 
-                  final repo = Get.find<ProfileRepository>();
                   final signedUrl = await repo.uploadAvatar(file);
                   await repo.updateAvatarUrl(avatarUrl: signedUrl);
 
-                  Get.find<ProfileBloc>().add(const ProfileRefreshed());
                   if (ctx.mounted) Navigator.of(ctx).pop();
                 },
               ),

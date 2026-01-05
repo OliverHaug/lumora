@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -45,7 +45,7 @@ class StartPage extends StatelessWidget {
                 ),
                 SizedBox(),
                 ElevatedButton(
-                  onPressed: () => Get.offNamed('/register'),
+                  onPressed: () => context.go('/register'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: Color(0xffdec27a),

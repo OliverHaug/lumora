@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import '../logic/circle_bloc.dart';
 import '../logic/circle_event.dart';
 import '../logic/circle_state.dart';
@@ -8,18 +10,40 @@ import 'widgets/circle_segmented_control.dart';
 import 'widgets/circle_user_tile.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 
-class FollowingTab extends StatelessWidget {
-  const FollowingTab({super.key});
+class FollowingTab extends ConsumerStatefulWidget {
+  const FollowingTab({super.key, required this.initialMode});
+
+  final CircleTabMode initialMode;
+
+  @override
+  ConsumerState<FollowingTab> createState() => _FollowingTabState();
+}
+
+class _FollowingTabState extends ConsumerState<FollowingTab> {
+  @override
+  void initState() {
+    super.initState();
+
+    final bloc = ref.read(circleBlocProvider);
+    if (bloc.state.status == CircleStatus.initial) {
+      bloc.add(const CircleStarted());
+    }
+
+    bloc.add(CircleTabChanged(widget.initialMode));
+  }
+
+  @override
+  void didUpdateWidget(covariant FollowingTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialMode != widget.initialMode) {
+      ref.read(circleBlocProvider).add(CircleTabChanged(widget.initialMode));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Get.find<CircleBloc>();
-
-    if (bloc.state.status == CircleStatus.initial) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!bloc.isClosed) bloc.add(const CircleStarted());
-      });
-    }
+    final bloc = ref.watch(circleBlocProvider);
 
     return BlocProvider.value(
       value: bloc,
@@ -45,16 +69,19 @@ class FollowingTab extends StatelessWidget {
                       onChanged: (v) => context.read<CircleBloc>().add(
                         CircleSearchChanged(v),
                       ),
-                      onFocusDiscover: () => context.read<CircleBloc>().add(
-                        const CircleTabChanged(CircleTabMode.discover),
-                      ),
+                      onFocusDiscover: () =>
+                          context.go('/community/following?tab=discover'),
                     ),
                     const SizedBox(height: 12),
 
                     CircleSegmentedControl(
                       mode: state.mode,
-                      onChanged: (m) =>
-                          context.read<CircleBloc>().add(CircleTabChanged(m)),
+                      onChanged: (m) {
+                        final tab = (m == CircleTabMode.discover)
+                            ? 'discover'
+                            : 'following';
+                        context.go('/community/following?tab=$tab');
+                      },
                     ),
                     const SizedBox(height: 18),
 
@@ -157,9 +184,7 @@ class _FollowingView extends StatelessWidget {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () => context.read<CircleBloc>().add(
-                const CircleTabChanged(CircleTabMode.discover),
-              ),
+              onPressed: () => context.go('/community/following?tab=discover'),
               child: Text(
                 'View All',
                 style: TextStyle(

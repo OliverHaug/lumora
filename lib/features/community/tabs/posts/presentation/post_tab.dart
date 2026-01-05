@@ -1,7 +1,9 @@
 // ... imports bleiben, aber PostCommentsRequested entfernen!
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
@@ -9,12 +11,13 @@ import 'package:xyz/features/community/tabs/posts/logic/post/post_state.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_card.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_editor_sheet.dart';
 
-class PostTab extends StatelessWidget {
+class PostTab extends ConsumerWidget {
   const PostTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final bloc = Get.find<PostBloc>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bloc = ref.watch(postBlocProvider);
+    final repo = ref.read(postRepositoryProvider);
 
     if (bloc.state.status == PostStatus.initial) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -24,7 +27,7 @@ class PostTab extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: IconButton.filled(
-        onPressed: () => showPostEditorSheet(context, bloc: bloc),
+        onPressed: () => showPostEditorSheet(context, bloc: bloc, repo: repo),
         icon: const Icon(Icons.add),
       ),
       body: BlocProvider.value(
@@ -54,14 +57,18 @@ class PostTab extends StatelessWidget {
                   return GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      Get.toNamed('/community/tweet', arguments: post);
+                      context.go('/community/posts/tweet/${post.id}');
                     },
                     child: PostCard(
                       post: post,
                       onLike: () =>
                           ctx.read<PostBloc>().add(PostLikeToggled(post.id)),
-                      onEdit: () =>
-                          showPostEditorSheet(context, post: post, bloc: bloc),
+                      onEdit: () => showPostEditorSheet(
+                        context,
+                        post: post,
+                        bloc: bloc,
+                        repo: repo,
+                      ),
                       onDelete: () => _confirmDeletePost(ctx, post, bloc),
                     ),
                   );

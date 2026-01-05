@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xyz/core/providers/app_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
 import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/comment_editor_sheet.dart';
 
-class CommentTile extends StatelessWidget {
+class CommentTile extends ConsumerWidget {
   final String postId;
   final CommentModel comment;
   final bool isExpanded;
@@ -21,9 +21,9 @@ class CommentTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final supabase = Get.find<SupabaseClient>();
+    final supabase = ref.watch(supabaseClientProvider);
     final currentUserId = supabase.auth.currentUser?.id;
     final isMine = currentUserId != null && currentUserId == comment.author.id;
 

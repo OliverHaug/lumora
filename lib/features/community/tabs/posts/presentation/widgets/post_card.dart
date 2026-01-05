@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/logic/community_bloc.dart';
-import 'package:xyz/features/community/logic/community_event.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends ConsumerWidget {
   const PostCard({
     super.key,
     required this.post,
@@ -22,8 +20,8 @@ class PostCard extends StatelessWidget {
   final VoidCallback? onDelete;
 
   @override
-  Widget build(BuildContext context) {
-    final supabase = Get.find<SupabaseClient>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final supabase = ref.watch(supabaseClientProvider);
     final uid = supabase.auth.currentUser?.id;
     final isMine = uid != null && uid == post.author.id;
 
@@ -51,9 +49,7 @@ class PostCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.read<CommunityBloc>().add(
-                      CommunityShowProfile(post.author.id),
-                    );
+                    context.go('/community/profile/${post.author.id}');
                   },
                   behavior: HitTestBehavior.opaque,
                   child: Row(

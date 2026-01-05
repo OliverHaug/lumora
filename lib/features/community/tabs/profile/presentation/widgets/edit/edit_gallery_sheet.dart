@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
 
-Future<void> showEditGallerySheet(BuildContext context) {
+Future<void> showEditGallerySheet(
+  BuildContext context,
+  ProfileBloc bloc,
+  ProfileRepository repo,
+) {
   final picker = ImagePicker();
 
   return showModalBottomSheet(
@@ -16,7 +19,7 @@ Future<void> showEditGallerySheet(BuildContext context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (ctx) {
-      final state = Get.find<ProfileBloc>().state;
+      final state = bloc.state;
       final urls = state.galleryUrls;
 
       return Padding(
@@ -56,14 +59,13 @@ Future<void> showEditGallerySheet(BuildContext context) {
                   );
                   if (file == null) return;
 
-                  final repo = Get.find<ProfileRepository>();
                   final signedUrl = await repo.uploadGalleryImage(file);
                   await repo.addGalleryPhoto(
                     imagePath: signedUrl['path']!,
                     imageUrl: signedUrl['url']!,
                   );
 
-                  Get.find<ProfileBloc>().add(const ProfileRefreshed());
+                  bloc.add(const ProfileRefreshed());
                 },
               ),
             ),
@@ -97,9 +99,8 @@ Future<void> showEditGallerySheet(BuildContext context) {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed: () async {
-                          final repo = Get.find<ProfileRepository>();
                           await repo.deleteGalleryPhoto(imageUrl: url);
-                          Get.find<ProfileBloc>().add(const ProfileRefreshed());
+                          bloc.add(const ProfileRefreshed());
                         },
                       ),
                     );

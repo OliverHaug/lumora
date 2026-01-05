@@ -8,12 +8,21 @@ class AppConfig {
 
   static String? get supabaseUrl {
     if (supabaseUrlDefine.isNotEmpty) return supabaseUrlDefine;
-    return dotenv.env['SUPABASE_URL'];
+
+    try {
+      return dotenv.env['SUPABASE_URL'];
+    } catch (_) {
+      return null;
+    }
   }
 
   static String? get supabaseAnonKey {
     if (supabaseAnonDefine.isNotEmpty) return supabaseAnonDefine;
-    return dotenv.env['SUPABASE_ANON'];
+    try {
+      return dotenv.env['SUPABASE_ANON'];
+    } catch (_) {
+      return null;
+    }
   }
 
   static bool get isDebug => kDebugMode;

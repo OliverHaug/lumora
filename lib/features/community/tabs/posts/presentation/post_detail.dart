@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
 import 'package:xyz/features/community/tabs/posts/logic/comments/comments_state.dart';
@@ -13,18 +12,22 @@ import 'package:xyz/features/community/tabs/posts/presentation/widgets/comment_c
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/comment_tile.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_card.dart';
 
-class PostDetail extends StatelessWidget {
-  const PostDetail({super.key});
+class PostDetail extends ConsumerWidget {
+  const PostDetail({super.key, required this.postId});
+
+  final String postId;
 
   @override
-  Widget build(BuildContext context) {
-    final initialPost = Get.arguments as PostModel;
-    final postBloc = Get.find<PostBloc>();
-    final repo = Get.find<PostRepository>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final postBloc = ref.watch(postBlocProvider);
+    final repo = ref.watch(postRepositoryProvider);
 
-    // Controller muss irgendwo leben – hier als Stateless ist’s schwierig.
-    // Minimal-Lösung: wir erstellen ihn hier pro Build und verwenden ihn nur im Composer.
-    // Besser: eigener GetX Controller oder kleines Stateful Wrapper. Für jetzt: ok.
+    if (postBloc.state.status == PostStatus.initial) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!postBloc.isClosed) postBloc.add(PostRequested());
+      });
+    }
+
     final composerController = TextEditingController();
 
     return MultiBlocProvider(
@@ -33,7 +36,7 @@ class PostDetail extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               CommentsBloc(repo: repo, postBloc: postBloc)
-                ..add(CommentsRequested(postId: initialPost.id)),
+                ..add(CommentsRequested(postId: postId)),
         ),
       ],
       child: Builder(
@@ -49,10 +52,20 @@ class PostDetail extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<PostBloc, PostState>(
                     builder: (context, postState) {
-                      final post = postState.feed.firstWhere(
-                        (p) => p.id == initialPost.id,
-                        orElse: () => initialPost,
-                      );
+                      final post =
+                          postState.feed.where((p) => p.id == postId).isNotEmpty
+                          ? postState.feed.firstWhere((p) => p.id == postId)
+                          : null;
+
+                      if (post == null) {
+                        if (postState.status == PostStatus.loading ||
+                            postState.status == PostStatus.initial) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return const Center(child: Text("Post not found."));
+                      }
 
                       return BlocBuilder<CommentsBloc, CommentsState>(
                         builder: (context, commentsState) {
@@ -139,7 +152,6 @@ class PostDetail extends StatelessWidget {
                               const SliverToBoxAdapter(
                                 child: SizedBox(height: 16),
                               ),
-                              // Platz damit letzter Kommentar nicht vom Composer verdeckt wird:
                               const SliverToBoxAdapter(
                                 child: SizedBox(height: 120),
                               ),
@@ -151,9 +163,8 @@ class PostDetail extends StatelessWidget {
                   ),
                 ),
 
-                // ✅ Facebook-Style Composer unten
                 CommentComposerBar(
-                  postId: initialPost.id,
+                  postId: postId,
                   controller: composerController,
                 ),
               ],

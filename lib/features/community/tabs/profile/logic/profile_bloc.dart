@@ -9,13 +9,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final PostRepository _postsRepo;
 
   ProfileBloc(this._repo, this._postsRepo) : super(const ProfileState()) {
-    on<ProfileStarted>(_onStarted);
     on<ProfileRefreshed>(_onRefreshed);
     on<ProfileUserChanged>(_onUserChanged);
-  }
-
-  Future<void> _onStarted(ProfileStarted e, Emitter<ProfileState> emit) async {
-    await _load(userId: e.userId, emit: emit);
   }
 
   Future<void> _onUserChanged(
@@ -39,6 +34,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }) async {
     final myId = _repo.currentUserId;
     final actualUserId = userId ?? myId;
+
     if (actualUserId == null) {
       emit(
         state.copyWith(
@@ -49,12 +45,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       return;
     }
 
-    final isMe = myId != null && actualUserId == myId;
+    final isMe = actualUserId == myId;
 
     emit(
       state.copyWith(
         status: ProfileStatus.loading,
-        viewingUserId: isMe ? null : actualUserId,
+        viewingUserId: actualUserId,
         isMe: isMe,
         error: null,
       ),

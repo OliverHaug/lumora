@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
 import 'package:xyz/features/inbox/logic/inbox_event.dart';
 import 'package:xyz/features/inbox/logic/inbox_state.dart';
@@ -9,12 +10,12 @@ import 'widgets/conversation_tile.dart';
 import 'widgets/inbox_search_field.dart';
 import 'widgets/notification_tile.dart';
 
-class InboxPage extends StatelessWidget {
+class InboxPage extends ConsumerWidget {
   const InboxPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final bloc = Get.find<InboxBloc>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bloc = ref.watch(inboxBlocProvider);
 
     if (bloc.state.status == InboxStatus.initial) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -47,7 +48,7 @@ class InboxPage extends StatelessWidget {
           child: const Icon(Icons.edit, color: Colors.white),
           onPressed: () {
             // TODO: compose new chat
-            // z.B. Get.toNamed('/inbox/new_chat');
+            // z.B. context.go('/inbox/new_chat');
           },
         ),
         body: SafeArea(
@@ -144,7 +145,7 @@ class _MessagesList extends StatelessWidget {
             conversation: c,
             onTap: () {
               // TODO: open chat detail
-              // Get.toNamed('/inbox/chat', arguments: c.id);
+              // context.go('/inbox/chat', arguments: c.id);
             },
           ),
         ),

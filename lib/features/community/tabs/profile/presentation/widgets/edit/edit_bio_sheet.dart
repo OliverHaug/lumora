@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
@@ -7,6 +6,8 @@ import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
 Future<void> showEditBioSheet(
   BuildContext context, {
   required String initialBio,
+  required ProfileRepository repo,
+  required ProfileBloc bloc,
 }) {
   final controller = TextEditingController(text: initialBio);
 
@@ -53,9 +54,8 @@ Future<void> showEditBioSheet(
               child: ElevatedButton(
                 onPressed: () async {
                   final text = controller.text.trim();
-                  final repo = Get.find<ProfileRepository>();
                   await repo.updateBio(bio: text);
-                  Get.find<ProfileBloc>().add(const ProfileRefreshed());
+                  bloc.add(const ProfileRefreshed());
                   if (ctx.mounted) Navigator.of(ctx).pop();
                 },
                 child: const Text(

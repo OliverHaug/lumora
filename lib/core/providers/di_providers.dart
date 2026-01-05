@@ -1,0 +1,107 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+// Repos/Datasources
+import 'package:xyz/features/auth/data/auth_repository.dart';
+import 'package:xyz/features/community/tabs/following/data/circle_repository.dart';
+import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
+import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:xyz/features/inbox/data/inbox_repository.dart';
+import 'package:xyz/features/inbox/data/local/inbox_local_datasource.dart';
+
+// Blocs
+import 'package:xyz/features/auth/logic/login/login_bloc.dart';
+import 'package:xyz/features/auth/logic/register/register_bloc.dart';
+import 'package:xyz/features/community/tabs/following/logic/circle_bloc.dart';
+import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
+import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
+import 'package:xyz/features/inbox/data/remote/inbox_remote_datasource.dart';
+import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
+import 'package:xyz/features/settings/logic/settings_bloc.dart';
+
+/// Supabase Client (single instance, initialized in main)
+final supabaseClientProvider = Provider<SupabaseClient>((ref) {
+  return Supabase.instance.client;
+});
+
+/// --------------------
+/// Repositories
+/// --------------------
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository(ref.watch(supabaseClientProvider));
+});
+
+final postRepositoryProvider = Provider<PostRepository>((ref) {
+  return PostRepository(ref.watch(supabaseClientProvider));
+});
+
+final circleRepositoryProvider = Provider<CircleRepository>((ref) {
+  return CircleRepository(ref.watch(supabaseClientProvider));
+});
+
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
+  return ProfileRepository(ref.watch(supabaseClientProvider));
+});
+
+final inboxLocalDataSourceProvider = Provider<InboxLocalDataSource>((ref) {
+  return InboxLocalDataSource();
+});
+
+final inboxRemoteDataSourceProvider = Provider<InboxRemoteDataSource>((ref) {
+  return InboxRemoteDataSource(ref.watch(supabaseClientProvider));
+});
+
+final inboxRepositoryProvider = Provider<InboxRepository>((ref) {
+  return InboxRepository(
+    ref.watch(inboxRemoteDataSourceProvider),
+    ref.watch(inboxLocalDataSourceProvider),
+  );
+});
+
+/// --------------------
+/// Blocs (autoDispose + close)
+/// --------------------
+final loginBlocProvider = Provider.autoDispose<LoginBloc>((ref) {
+  final bloc = LoginBloc(ref.watch(authRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final registerBlocProvider = Provider.autoDispose<RegisterBloc>((ref) {
+  final bloc = RegisterBloc(ref.watch(authRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final postBlocProvider = Provider.autoDispose<PostBloc>((ref) {
+  final bloc = PostBloc(ref.watch(postRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final circleBlocProvider = Provider.autoDispose<CircleBloc>((ref) {
+  final bloc = CircleBloc(ref.watch(circleRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final profileBlocProvider = Provider.autoDispose<ProfileBloc>((ref) {
+  final bloc = ProfileBloc(
+    ref.watch(profileRepositoryProvider),
+    ref.watch(postRepositoryProvider),
+  );
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final inboxBlocProvider = Provider.autoDispose<InboxBloc>((ref) {
+  final bloc = InboxBloc(ref.watch(inboxRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});
+
+final settingsBlocProvider = Provider.autoDispose<SettingsBloc>((ref) {
+  final bloc = SettingsBloc(ref.watch(authRepositoryProvider));
+  ref.onDispose(bloc.close);
+  return bloc;
+});

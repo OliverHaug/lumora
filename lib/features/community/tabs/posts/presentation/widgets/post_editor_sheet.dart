@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
@@ -173,8 +172,8 @@ Future<void> showPostEditorSheet(
   BuildContext context, {
   PostModel? post,
   required PostBloc bloc,
+  required PostRepository repo,
 }) {
-  final repo = Get.find<PostRepository>();
   final textController = TextEditingController(text: post?.content ?? '');
 
   return showModalBottomSheet(

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/auth/logic/register/register_bloc.dart';
 import 'package:xyz/features/auth/logic/register/register_event.dart';
 import 'package:xyz/features/auth/logic/register/register_state.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final registerBloc = Get.find<RegisterBloc>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final registerBloc = ref.watch(registerBlocProvider);
 
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: const Text('Create account')),
@@ -31,7 +31,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                 );
-                Get.offAllNamed('/community');
+                context.go('/community');
               } else if (state.status == RegisterStatus.failure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -96,7 +96,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   TextButton(
-                    onPressed: () => Get.offNamed('/login'),
+                    onPressed: () => context.go('/login'),
                     child: const Text(
                       "Already have an account? Sign in",
                       style: TextStyle(

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/instance_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/auth/logic/login/login_bloc.dart';
 import 'package:xyz/features/auth/logic/login/login_event.dart';
 import 'package:xyz/features/auth/logic/login/login_state.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final loginBloc = Get.find<LoginBloc>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginBloc = ref.watch(loginBlocProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +36,7 @@ class LoginPage extends StatelessWidget {
                     context,
                   ).showSnackBar(const SnackBar(content: Text('Logged in')));
                   loginBloc.add(LoginReset());
-                  Get.offAllNamed('/community');
+                  context.go('/community');
                 } else if (state.status == LoginStatus.failure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.error ?? 'Login failed')),
@@ -159,7 +160,7 @@ class LoginPage extends StatelessWidget {
                     TextButton(
                       onPressed: isLoading
                           ? null
-                          : () => Get.offNamed('/register'),
+                          : () => context.go('/register'),
                       child: Text(
                         "Don't have an account? Sign up",
                         style: TextStyle(
