@@ -36,6 +36,20 @@ class UserModel extends Equatable {
     );
   }
 
+<<<<<<< HEAD
+=======
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'name': name,
+    'avatar_url': avatarUrl,
+    'avatar_path': avatarPath,
+    'bio': bio,
+    'role': role,
+    'headline': headline,
+    'created_at': createdAt?.toIso8601String(),
+  };
+
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
   @override
   List<Object?> get props => [
     id,

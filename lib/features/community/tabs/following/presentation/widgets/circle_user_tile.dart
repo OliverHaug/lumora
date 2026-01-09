@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:go_router/go_router.dart';
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 import 'package:xyz/core/theme/app_colors.dart';
 import '../../data/circle_user_model.dart';
 
@@ -37,6 +41,7 @@ class CircleUserTile extends StatelessWidget {
       ),
       child: Row(
         children: [
+<<<<<<< HEAD
           CircleAvatar(
             radius: 26,
             backgroundImage: user.avatarUrl != null
@@ -64,6 +69,46 @@ class CircleUserTile extends StatelessWidget {
                   style: TextStyle(color: Colors.black.withValues(alpha: .55)),
                 ),
               ],
+=======
+          Expanded(
+            child: InkWell(
+              onTap: () => context.go('/community/profile/${user.id}'),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 26,
+                    backgroundImage: user.avatarUrl != null
+                        ? NetworkImage(user.avatarUrl!)
+                        : null,
+                    child: user.avatarUrl == null
+                        ? const Icon(Icons.person)
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.name.isEmpty ? 'Unknown' : user.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: .55),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
             ),
           ),
           const SizedBox(width: 10),

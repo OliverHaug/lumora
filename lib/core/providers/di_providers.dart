@@ -9,6 +9,10 @@ import 'package:xyz/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:xyz/features/community/tabs/following/data/circle_repository.dart';
 import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
 import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
+<<<<<<< HEAD
+=======
+import 'package:xyz/features/inbox/data/chat_repository.dart';
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 import 'package:xyz/features/inbox/data/inbox_repository.dart';
 import 'package:xyz/features/inbox/data/local/inbox_local_datasource.dart';
 
@@ -18,7 +22,15 @@ import 'package:xyz/features/auth/logic/register/register_bloc.dart';
 import 'package:xyz/features/community/tabs/following/logic/circle_bloc.dart';
 import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
 import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
+<<<<<<< HEAD
 import 'package:xyz/features/inbox/data/remote/inbox_remote_datasource.dart';
+=======
+import 'package:xyz/features/inbox/data/models/conversation_model.dart';
+import 'package:xyz/features/inbox/data/remote/chat_local_datasource.dart';
+import 'package:xyz/features/inbox/data/remote/chat_remote_datasource.dart';
+import 'package:xyz/features/inbox/data/remote/inbox_remote_datasource.dart';
+import 'package:xyz/features/inbox/logic/chat/chat_bloc.dart';
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
 import 'package:xyz/features/settings/logic/settings_bloc.dart';
 
@@ -73,6 +85,24 @@ final inboxRepositoryProvider = Provider<InboxRepository>((ref) {
   );
 });
 
+<<<<<<< HEAD
+=======
+final chatLocalDataSourceProvider = Provider<ChatLocalDataSource>((ref) {
+  return ChatLocalDataSource();
+});
+
+final chatRemoteDataSourceProvider = Provider<ChatRemoteDataSource>((ref) {
+  return ChatRemoteDataSource(ref.watch(supabaseClientProvider));
+});
+
+final chatRepositoryProvider = Provider<ChatRepository>((ref) {
+  return ChatRepository(
+    ref.watch(chatRemoteDataSourceProvider),
+    ref.watch(chatLocalDataSourceProvider),
+  );
+});
+
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 /// --------------------
 /// Blocs (autoDispose + close)
 /// --------------------
@@ -120,3 +150,17 @@ final settingsBlocProvider = Provider.autoDispose<SettingsBloc>((ref) {
   ref.onDispose(bloc.close);
   return bloc;
 });
+<<<<<<< HEAD
+=======
+
+final chatBlocProvider = Provider.autoDispose
+    .family<ChatBloc, ConversationModel>((ref, conversation) {
+      final bloc = ChatBloc(
+        repo: ref.watch(chatRepositoryProvider),
+        client: ref.watch(supabaseClientProvider),
+        conversationId: conversation.id,
+      );
+      ref.onDispose(bloc.close);
+      return bloc;
+    });
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)

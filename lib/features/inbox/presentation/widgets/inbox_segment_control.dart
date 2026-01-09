@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:xyz/core/theme/app_colors.dart';
+<<<<<<< HEAD
 import 'package:xyz/features/inbox/logic/inbox_event.dart';
+=======
+import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 
 class InboxSegmentedControl extends StatelessWidget {
   final InboxTabMode mode;

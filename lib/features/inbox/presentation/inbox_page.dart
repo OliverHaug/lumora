@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+<<<<<<< HEAD
 import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
 import 'package:xyz/features/inbox/logic/inbox_event.dart';
@@ -13,6 +14,43 @@ import 'widgets/notification_tile.dart';
 class InboxPage extends ConsumerWidget {
   const InboxPage({super.key});
 
+=======
+import 'package:go_router/go_router.dart';
+
+import 'package:xyz/core/providers/di_providers.dart';
+import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
+import 'package:xyz/features/inbox/presentation/widgets/conversation_tile.dart';
+import 'package:xyz/features/inbox/presentation/widgets/inbox_segment_control.dart';
+import 'package:xyz/features/settings/data/user_model.dart';
+
+import 'widgets/inbox_search_field.dart';
+import 'widgets/notification_tile.dart';
+
+/// ✅ People I follow (für "Neue Konversation")
+final followingUsersProvider = FutureProvider<List<UserModel>>((ref) async {
+  final circle = ref.watch(circleRepositoryProvider);
+  final rows = await circle.fetchFollowing();
+
+  // rows sind Map<String, dynamic> die zu UserModel passen müssen
+  return rows.map((m) => UserModel.fromMap(m)).toList();
+});
+
+class InboxPage extends ConsumerWidget {
+  const InboxPage({super.key});
+
+  void _openNewChatSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xfff4f2f0),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+      ),
+      builder: (_) => const NewChatSheet(),
+    );
+  }
+
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bloc = ref.watch(inboxBlocProvider);
@@ -38,11 +76,16 @@ class InboxPage extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
+<<<<<<< HEAD
                 // optional: settings / filter
+=======
+                // optional
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
               },
             ),
           ],
         ),
+<<<<<<< HEAD
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: const Icon(Icons.edit, color: Colors.white),
@@ -51,6 +94,16 @@ class InboxPage extends ConsumerWidget {
             // z.B. context.go('/inbox/new_chat');
           },
         ),
+=======
+
+        /// ✅ FAB: neue Konversation starten
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          child: const Icon(Icons.edit, color: Colors.white),
+          onPressed: () => _openNewChatSheet(context),
+        ),
+
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
         body: SafeArea(
           child: BlocBuilder<InboxBloc, InboxState>(
             builder: (context, state) {
@@ -62,16 +115,25 @@ class InboxPage extends ConsumerWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
                   children: [
+<<<<<<< HEAD
                     // Segmented control
                     InboxSegmentedControl(
                       mode: state.mode,
                       notificationsHasDot: true, // optional später dynamisch
+=======
+                    InboxSegmentedControl(
+                      mode: state.mode,
+                      notificationsHasDot: true,
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                       onChanged: (m) =>
                           context.read<InboxBloc>().add(InboxTabChanged(m)),
                     ),
                     const SizedBox(height: 12),
 
+<<<<<<< HEAD
                     // Search
+=======
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                     InboxSearchField(
                       value: state.query,
                       onChanged: (v) =>
@@ -79,7 +141,10 @@ class InboxPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
 
+<<<<<<< HEAD
                     // Content
+=======
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                     if (state.status == InboxStatus.loading) ...[
                       const SizedBox(height: 24),
                       const Center(child: CircularProgressIndicator()),
@@ -126,7 +191,16 @@ class _MessagesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final items = state.conversations;
+=======
+    final items = state.conversations.where((c) {
+      final hasAt = c.lastMessageAt != null;
+      final hasText = c.lastMessageText.trim().isNotEmpty;
+
+      return hasAt && hasText;
+    });
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 
     if (items.isEmpty) {
       return Padding(
@@ -144,8 +218,20 @@ class _MessagesList extends StatelessWidget {
           (c) => ConversationTile(
             conversation: c,
             onTap: () {
+<<<<<<< HEAD
               // TODO: open chat detail
               // context.go('/inbox/chat', arguments: c.id);
+=======
+              final qp = <String, String>{
+                if (c.peerUser.name.trim().isNotEmpty)
+                  'peer_name': c.peerUser.name,
+                if ((c.peerUser.avatarUrl ?? '').trim().isNotEmpty)
+                  'peer_avatar_url': c.peerUser.avatarUrl!,
+              };
+
+              final q = qp.isEmpty ? '' : '?${Uri(queryParameters: qp).query}';
+              context.go('/inbox/chat/${c.id}$q');
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
             },
           ),
         ),
@@ -159,7 +245,10 @@ class _NotificationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     // TODO: hier später NotificationsBloc + DB
+=======
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
     final mock = [
       (
         title: 'Dr. Green',
@@ -187,3 +276,230 @@ class _NotificationsList extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+/// ✅ BottomSheet: Following auswählen → Conversation erstellen → Chat öffnen
+class NewChatSheet extends ConsumerStatefulWidget {
+  const NewChatSheet({super.key});
+
+  @override
+  ConsumerState<NewChatSheet> createState() => _NewChatSheetState();
+}
+
+class _NewChatSheetState extends ConsumerState<NewChatSheet> {
+  final _searchCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final followingAsync = ref.watch(followingUsersProvider);
+    final q = _searchCtrl.text.trim().toLowerCase();
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.72,
+      minChildSize: 0.45,
+      maxChildSize: 0.92,
+      expand: false,
+      builder: (context, scrollCtrl) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+          child: Column(
+            children: [
+              Container(
+                width: 44,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: .18),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              const SizedBox(height: 14),
+
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'New conversation',
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: Colors.black.withValues(alpha: .06),
+                  ),
+                ),
+                child: TextField(
+                  controller: _searchCtrl,
+                  onChanged: (_) => setState(() {}),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search people you follow…',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              Expanded(
+                child: followingAsync.when(
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (e, _) => Center(
+                    child: Text(
+                      e.toString(),
+                      style: TextStyle(
+                        color: Colors.black.withValues(alpha: .7),
+                      ),
+                    ),
+                  ),
+                  data: (users) {
+                    final filtered = users.where((u) {
+                      if (q.isEmpty) return true;
+                      final name = (u.name).toLowerCase();
+                      final role = u.role.toLowerCase();
+                      return name.contains(q) || role.contains(q);
+                    }).toList();
+
+                    if (filtered.isEmpty) {
+                      return Text(
+                        'No results.',
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: .6),
+                        ),
+                      );
+                    }
+
+                    return ListView.separated(
+                      controller: scrollCtrl,
+                      itemCount: filtered.length,
+                      separatorBuilder: (_, __) => Divider(
+                        height: 1,
+                        color: Colors.black.withValues(alpha: .06),
+                      ),
+                      itemBuilder: (context, i) {
+                        final u = filtered[i];
+                        return ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
+                          leading: _AvatarSmall(
+                            url: u.avatarUrl,
+                            fallbackText: u.name,
+                          ),
+                          title: Text(
+                            u.name,
+                            style: const TextStyle(fontWeight: FontWeight.w900),
+                          ),
+                          subtitle: (u.role.isNotEmpty)
+                              ? Text(
+                                  u.role,
+                                  style: TextStyle(
+                                    color: Colors.black.withValues(alpha: .55),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : null,
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () async {
+                            try {
+                              final repo = ref.read(inboxRepositoryProvider);
+
+                              /// ✅ create/get conversation_id
+                              final conversationId = await repo
+                                  .getOrCreateDirectConnversation(u.id);
+
+                              if (!context.mounted) return;
+                              Navigator.of(context).pop();
+
+                              final qp = <String, String>{
+                                if (u.name.trim().isNotEmpty)
+                                  'peer_name': u.name,
+                                if ((u.avatarUrl ?? '').trim().isNotEmpty)
+                                  'peer_avatar_url': u.avatarUrl!,
+                              };
+
+                              final query = qp.isEmpty
+                                  ? ''
+                                  : '?${Uri(queryParameters: qp).query}';
+
+                              context.go('/inbox/chat/$conversationId$query');
+                            } catch (e) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _AvatarSmall extends StatelessWidget {
+  const _AvatarSmall({required this.url, required this.fallbackText});
+
+  final String? url;
+  final String fallbackText;
+
+  @override
+  Widget build(BuildContext context) {
+    final initials = fallbackText.trim().isEmpty
+        ? '?'
+        : fallbackText
+              .trim()
+              .split(RegExp(r'\s+'))
+              .take(2)
+              .map((p) => p.isEmpty ? '' : p[0].toUpperCase())
+              .join();
+
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: const Color(0xffe7d7a5),
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.black.withValues(alpha: .06)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: (url != null && url!.trim().isNotEmpty)
+          ? Image.network(
+              url!,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Center(
+                child: Text(
+                  initials,
+                  style: const TextStyle(fontWeight: FontWeight.w900),
+                ),
+              ),
+            )
+          : Center(
+              child: Text(
+                initials,
+                style: const TextStyle(fontWeight: FontWeight.w900),
+              ),
+            ),
+    );
+  }
+}
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)

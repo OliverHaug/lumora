@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+<<<<<<< HEAD
+=======
+import 'package:go_router/go_router.dart';
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 import 'package:xyz/core/providers/di_providers.dart';
 import 'package:xyz/core/theme/app_colors.dart';
 import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_card.dart';
@@ -84,8 +88,22 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                           : null,
                       onConnect: state.isMe
                           ? null
+<<<<<<< HEAD
                           : () {
                               // später: DM / Connect Flow
+=======
+                          : () async {
+                              final inboxRepo = ref.read(
+                                inboxRepositoryProvider,
+                              );
+
+                              final conversationId = await inboxRepo
+                                  .getOrCreateDirectConnversation(user.id);
+
+                              if (!context.mounted) return;
+
+                              context.go('/inbox/chat/$conversationId');
+>>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                             },
                     ),
                     const SizedBox(height: 14),
