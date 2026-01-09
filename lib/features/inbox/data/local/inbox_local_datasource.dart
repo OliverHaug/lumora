@@ -12,6 +12,8 @@ class InboxLocalDataSource {
     final bd = b.lastMessageAt;
 
     if (ad == null && bd == null) return 0;
+    if (ad == null) return 1; // null nach unten
+    if (bd == null) return -1;
 
     return bd.compareTo(ad); // DESC
   }
