@@ -1,6 +1,6 @@
-import 'package:xyz/features/inbox/data/models/message_model.dart';
-import 'package:xyz/features/inbox/data/remote/chat_local_datasource.dart';
-import 'package:xyz/features/inbox/data/remote/chat_remote_datasource.dart';
+import 'package:lumora/features/inbox/data/models/message_model.dart';
+import 'package:lumora/features/inbox/data/remote/chat_local_datasource.dart';
+import 'package:lumora/features/inbox/data/remote/chat_remote_datasource.dart';
 
 class ChatRepository {
   final ChatRemoteDataSource _remote;

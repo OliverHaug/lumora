@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/tabs/profile/data/healing_qa_model.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/community/tabs/profile/data/healing_qa_model.dart';
 
 class ProfileHealingAccordion extends StatefulWidget {
   final bool isMe;

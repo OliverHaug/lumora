@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xyz/core/providers/app_providers.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/widgets/comment_editor_sheet.dart';
+import 'package:lumora/core/providers/app_providers.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/community/tabs/posts/data/comment_model.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_event.dart';
+import 'package:lumora/features/community/tabs/posts/presentation/widgets/comment_editor_sheet.dart';
 
 class CommentTile extends ConsumerWidget {
   final String postId;

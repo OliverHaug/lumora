@@ -1,7 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
+import 'package:lumora/features/community/tabs/posts/data/comment_model.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_models.dart';
 
 class PostRepository {
   final SupabaseClient _client;

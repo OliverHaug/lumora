@@ -2,30 +2,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Repos/Datasources
-import 'package:xyz/features/auth/data/auth_repository.dart';
-import 'package:xyz/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:xyz/features/auth/domain/usecases/sign_out_usecase.dart';
-import 'package:xyz/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:xyz/features/community/tabs/following/data/circle_repository.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
-import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
-import 'package:xyz/features/inbox/data/chat_repository.dart';
-import 'package:xyz/features/inbox/data/inbox_repository.dart';
-import 'package:xyz/features/inbox/data/local/inbox_local_datasource.dart';
+import 'package:lumora/features/auth/data/auth_repository.dart';
+import 'package:lumora/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:lumora/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:lumora/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:lumora/features/community/tabs/following/data/circle_repository.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_repository.dart';
+import 'package:lumora/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:lumora/features/inbox/data/chat_repository.dart';
+import 'package:lumora/features/inbox/data/inbox_repository.dart';
+import 'package:lumora/features/inbox/data/local/inbox_local_datasource.dart';
 
 // Blocs
-import 'package:xyz/features/auth/logic/login/login_bloc.dart';
-import 'package:xyz/features/auth/logic/register/register_bloc.dart';
-import 'package:xyz/features/community/tabs/following/logic/circle_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
-import 'package:xyz/features/inbox/data/models/conversation_model.dart';
-import 'package:xyz/features/inbox/data/remote/chat_local_datasource.dart';
-import 'package:xyz/features/inbox/data/remote/chat_remote_datasource.dart';
-import 'package:xyz/features/inbox/data/remote/inbox_remote_datasource.dart';
-import 'package:xyz/features/inbox/logic/chat/chat_bloc.dart';
-import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
-import 'package:xyz/features/settings/logic/settings_bloc.dart';
+import 'package:lumora/features/auth/logic/login/login_bloc.dart';
+import 'package:lumora/features/auth/logic/register/register_bloc.dart';
+import 'package:lumora/features/community/tabs/following/logic/circle_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_bloc.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_bloc.dart';
+import 'package:lumora/features/inbox/data/models/conversation_model.dart';
+import 'package:lumora/features/inbox/data/remote/chat_local_datasource.dart';
+import 'package:lumora/features/inbox/data/remote/chat_remote_datasource.dart';
+import 'package:lumora/features/inbox/data/remote/inbox_remote_datasource.dart';
+import 'package:lumora/features/inbox/logic/chat/chat_bloc.dart';
+import 'package:lumora/features/inbox/logic/inbox_bloc.dart';
+import 'package:lumora/features/settings/logic/settings_bloc.dart';
 
 /// Supabase Client (single instance, initialized in main)
 final supabaseClientProvider = Provider<SupabaseClient>((ref) {

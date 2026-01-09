@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
+import 'package:lumora/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_bloc.dart';
 
 Future<void> showEditAvatarSheet(
   BuildContext context,

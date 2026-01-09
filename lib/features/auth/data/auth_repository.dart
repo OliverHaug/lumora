@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/core/errors/result.dart';
-import 'package:xyz/core/errors/supabase_error_mapper.dart';
+import 'package:lumora/core/errors/result.dart';
+import 'package:lumora/core/errors/supabase_error_mapper.dart';
 
 class AuthRepository {
   AuthRepository(this._client);
@@ -17,13 +17,13 @@ class AuthRepository {
   }) async {
     switch (email) {
       case 'admin':
-        email = 'admin@xyz.local';
+        email = 'admin@lumora.local';
         break;
       case 'jennifer':
-        email = 'jennifer.admin@xyz.de';
+        email = 'jennifer.admin@lumora.de';
         break;
       case 'oliver':
-        email = 'oliver.admin@xyz.de';
+        email = 'oliver.admin@lumora.de';
         break;
     }
 

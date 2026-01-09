@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
-import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_state.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_repository.dart';
+import 'package:lumora/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_event.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository _repo;

@@ -1,4 +1,4 @@
-import 'package:xyz/core/errors/result.dart';
+import 'package:lumora/core/errors/result.dart';
 import '../../data/auth_repository.dart';
 
 class SignInUseCase {

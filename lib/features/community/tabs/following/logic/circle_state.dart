@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/community/tabs/following/data/circle_user_model.dart';
+import 'package:lumora/features/community/tabs/following/data/circle_user_model.dart';
 import 'circle_event.dart';
 
 enum CircleStatus { initial, loading, success, failure }

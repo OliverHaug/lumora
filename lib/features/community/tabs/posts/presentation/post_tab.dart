@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_state.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_card.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/widgets/post_editor_sheet.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_models.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_event.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_state.dart';
+import 'package:lumora/features/community/tabs/posts/presentation/widgets/post_card.dart';
+import 'package:lumora/features/community/tabs/posts/presentation/widgets/post_editor_sheet.dart';
 
 class PostTab extends ConsumerWidget {
   const PostTab({super.key});

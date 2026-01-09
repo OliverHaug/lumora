@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post_edit/post_editor_state.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_models.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_repository.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_event.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post_edit/post_editor_state.dart';
 
 class PostEditorCubit extends Cubit<PostEditorState> {
   final PostRepository _repo;

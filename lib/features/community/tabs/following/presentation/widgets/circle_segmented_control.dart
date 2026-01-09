@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/core/theme/app_colors.dart';
+import 'package:lumora/core/theme/app_colors.dart';
 import '../../logic/circle_event.dart';
 
 class CircleSegmentedControl extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:hive/hive.dart';
-import 'package:xyz/features/inbox/data/models/message_model.dart';
+import 'package:lumora/features/inbox/data/models/message_model.dart';
 
 class ChatLocalDataSource {
   static const _boxName = 'inbox_cache';

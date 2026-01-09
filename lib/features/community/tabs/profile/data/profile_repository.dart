@@ -1,9 +1,9 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/features/community/tabs/profile/data/healing_answer_model.dart';
-import 'package:xyz/features/community/tabs/profile/data/healing_qa_model.dart';
-import 'package:xyz/features/community/tabs/profile/data/healing_question_model.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/features/community/tabs/profile/data/healing_answer_model.dart';
+import 'package:lumora/features/community/tabs/profile/data/healing_qa_model.dart';
+import 'package:lumora/features/community/tabs/profile/data/healing_question_model.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 class ProfileRepository {
   final SupabaseClient _client;

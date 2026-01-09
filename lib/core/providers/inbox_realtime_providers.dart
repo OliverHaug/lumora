@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/core/providers/inbox_ui_signal_provider.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/core/providers/inbox_ui_signal_provider.dart';
 
 final inboxUnreadTotalProvider =
     AsyncNotifierProvider<InboxUnreadTotalNotifier, int>(

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/auth/logic/login/login_bloc.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/auth/logic/login/login_bloc.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});

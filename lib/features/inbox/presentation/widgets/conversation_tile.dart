@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/features/inbox/data/models/conversation_model.dart';
+import 'package:lumora/features/inbox/data/models/conversation_model.dart';
 
 class ConversationTile extends StatelessWidget {
   final ConversationModel conversation;

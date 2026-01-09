@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_repository.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_event.dart';
-import 'package:xyz/features/community/tabs/posts/logic/post/post_state.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_repository.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_event.dart';
+import 'package:lumora/features/community/tabs/posts/logic/post/post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepository _repo;

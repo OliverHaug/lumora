@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/features/community/tabs/profile/data/profile_repository.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_bloc.dart';
-import 'package:xyz/features/community/tabs/profile/logic/profile_event.dart';
+import 'package:lumora/features/community/tabs/profile/data/profile_repository.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_bloc.dart';
+import 'package:lumora/features/community/tabs/profile/logic/profile_event.dart';
 
 Future<void> showEditBioSheet(
   BuildContext context, {

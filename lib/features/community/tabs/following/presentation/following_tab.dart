@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/providers/di_providers.dart';
+import 'package:lumora/core/providers/di_providers.dart';
 import '../logic/circle_bloc.dart';
 import '../logic/circle_event.dart';
 import '../logic/circle_state.dart';
 import 'widgets/circle_segmented_control.dart';
 import 'widgets/circle_user_tile.dart';
-import 'package:xyz/core/theme/app_colors.dart';
+import 'package:lumora/core/theme/app_colors.dart';
 
 class FollowingTab extends ConsumerStatefulWidget {
   const FollowingTab({super.key, required this.initialMode});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:xyz/core/config/supabase_config.dart';
-import 'package:xyz/core/router/app_router.dart';
-import 'package:xyz/core/theme/app_theme.dart';
+import 'package:lumora/core/config/supabase_config.dart';
+import 'package:lumora/core/router/app_router.dart';
+import 'package:lumora/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'XYZ',
+      title: 'Lumora',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       routerConfig: router,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_models.dart';
 
 class PostCard extends ConsumerWidget {
   const PostCard({

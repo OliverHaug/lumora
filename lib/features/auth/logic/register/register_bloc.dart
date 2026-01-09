@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:xyz/core/errors/result.dart';
+import 'package:lumora/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:lumora/core/errors/result.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

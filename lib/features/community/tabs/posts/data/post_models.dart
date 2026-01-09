@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/features/community/tabs/posts/data/comment_model.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 class PostModel extends Equatable {
   final String id;

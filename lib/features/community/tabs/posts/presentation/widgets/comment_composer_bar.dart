@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_state.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_event.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_state.dart';
 
 class CommentComposerBar extends StatelessWidget {
   final String postId;

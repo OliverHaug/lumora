@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/community/tabs/profile/data/healing_question_model.dart';
+import 'package:lumora/features/community/tabs/profile/data/healing_question_model.dart';
 
 class HealingQAModel extends Equatable {
   final HealingQuestionModel question;

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/community/tabs/posts/data/post_models.dart';
+import 'package:lumora/features/community/tabs/posts/data/post_models.dart';
 
 enum PostStatus { initial, loading, success, failure }
 

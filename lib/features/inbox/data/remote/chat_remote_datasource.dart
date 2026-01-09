@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/features/inbox/data/models/message_model.dart';
+import 'package:lumora/features/inbox/data/models/message_model.dart';
 
 class ChatRemoteDataSource {
   final SupabaseClient _client;

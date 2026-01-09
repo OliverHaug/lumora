@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
+import 'package:lumora/features/community/tabs/posts/data/comment_model.dart';
 
 class CommentsState extends Equatable {
   final Map<String, List<CommentModel>> commentsByPost;

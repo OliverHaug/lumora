@@ -32,7 +32,7 @@ jobs:
 
       - name: Build web
         run: >
-          flutter build web --release --base-href /xyz/
+          flutter build web --release --base-href /lumora/
           --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }}
           --dart-define=SUPABASE_ANON=${{ secrets.SUPABASE_ANON }}
 

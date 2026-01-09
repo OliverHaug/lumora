@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/inbox/logic/inbox_bloc.dart';
 
 class InboxSegmentedControl extends StatelessWidget {
   final InboxTabMode mode;

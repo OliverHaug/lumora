@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:xyz/core/providers/inbox_realtime_providers.dart';
+import 'package:lumora/core/providers/inbox_realtime_providers.dart';
 
 class InboxBadgeIcon extends ConsumerWidget {
   const InboxBadgeIcon({super.key});

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 class CircleUserModel extends Equatable {
   final UserModel user;

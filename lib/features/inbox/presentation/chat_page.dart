@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/core/providers/inbox_realtime_providers.dart';
-import 'package:xyz/core/providers/inbox_ui_signal_provider.dart';
-import 'package:xyz/core/theme/app_colors.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/core/providers/inbox_realtime_providers.dart';
+import 'package:lumora/core/providers/inbox_ui_signal_provider.dart';
+import 'package:lumora/core/theme/app_colors.dart';
 
-import 'package:xyz/features/inbox/logic/chat/chat_bloc.dart';
-import 'package:xyz/features/inbox/data/chat_repository.dart';
-import 'package:xyz/features/inbox/data/inbox_repository.dart';
-import 'package:xyz/features/inbox/data/models/conversation_model.dart';
+import 'package:lumora/features/inbox/logic/chat/chat_bloc.dart';
+import 'package:lumora/features/inbox/data/chat_repository.dart';
+import 'package:lumora/features/inbox/data/inbox_repository.dart';
+import 'package:lumora/features/inbox/data/models/conversation_model.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({

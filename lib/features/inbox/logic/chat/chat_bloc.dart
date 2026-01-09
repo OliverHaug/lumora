@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/features/inbox/data/chat_repository.dart';
-import 'package:xyz/features/inbox/data/models/message_model.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/features/inbox/data/chat_repository.dart';
+import 'package:lumora/features/inbox/data/models/message_model.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/community/tabs/following/logic/circle_event.dart';
-import 'package:xyz/features/community/tabs/following/presentation/following_tab.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/post_tab.dart';
-import 'package:xyz/features/community/tabs/profile/presentation/profile_tab.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/community/tabs/following/logic/circle_event.dart';
+import 'package:lumora/features/community/tabs/following/presentation/following_tab.dart';
+import 'package:lumora/features/community/tabs/posts/presentation/post_tab.dart';
+import 'package:lumora/features/community/tabs/profile/presentation/profile_tab.dart';
 
 enum CommunityTab { posts, following, profile }
 

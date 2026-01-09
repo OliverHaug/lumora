@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/data/comment_model.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_bloc.dart';
-import 'package:xyz/features/community/tabs/posts/logic/comments/comments_event.dart';
+import 'package:lumora/features/community/tabs/posts/data/comment_model.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_bloc.dart';
+import 'package:lumora/features/community/tabs/posts/logic/comments/comments_event.dart';
 
 Future<void> showEditCommentSheet(
   BuildContext context, {

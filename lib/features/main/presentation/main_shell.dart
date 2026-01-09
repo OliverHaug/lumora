@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/main/widgets/inbox_badge_icon.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/main/widgets/inbox_badge_icon.dart';
 
 class MainShell extends ConsumerWidget {
   const MainShell({super.key, required this.navigationShell});

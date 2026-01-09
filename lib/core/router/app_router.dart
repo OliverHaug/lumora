@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:xyz/core/providers/app_providers.dart';
-import 'package:xyz/features/community/presentation/community_page.dart';
-import 'package:xyz/features/community/tabs/following/logic/circle_event.dart';
-import 'package:xyz/features/inbox/presentation/chat_page.dart';
-import 'package:xyz/features/inbox/presentation/inbox_page.dart';
-import 'package:xyz/features/settings/presentation/settings_page.dart';
-import 'package:xyz/features/start/presentation/start_page.dart';
-import 'package:xyz/features/auth/presentation/login_page.dart';
-import 'package:xyz/features/auth/presentation/register_page.dart';
-import 'package:xyz/features/main/presentation/main_shell.dart';
-import 'package:xyz/features/community/tabs/posts/presentation/post_detail.dart';
+import 'package:lumora/core/providers/app_providers.dart';
+import 'package:lumora/features/community/presentation/community_page.dart';
+import 'package:lumora/features/community/tabs/following/logic/circle_event.dart';
+import 'package:lumora/features/inbox/presentation/chat_page.dart';
+import 'package:lumora/features/inbox/presentation/inbox_page.dart';
+import 'package:lumora/features/settings/presentation/settings_page.dart';
+import 'package:lumora/features/start/presentation/start_page.dart';
+import 'package:lumora/features/auth/presentation/login_page.dart';
+import 'package:lumora/features/auth/presentation/register_page.dart';
+import 'package:lumora/features/main/presentation/main_shell.dart';
+import 'package:lumora/features/community/tabs/posts/presentation/post_detail.dart';
 import 'dart:async';
 
 final routerProvider = Provider<GoRouter>((ref) {

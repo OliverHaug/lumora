@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xyz/core/theme/app_colors.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/core/theme/app_colors.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 class ProfileHeader extends StatelessWidget {
   final UserModel user;

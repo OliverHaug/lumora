@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
-import 'package:xyz/features/inbox/presentation/widgets/conversation_tile.dart';
-import 'package:xyz/features/inbox/presentation/widgets/inbox_segment_control.dart';
-import 'package:xyz/features/settings/data/user_model.dart';
+import 'package:lumora/core/providers/di_providers.dart';
+import 'package:lumora/features/inbox/logic/inbox_bloc.dart';
+import 'package:lumora/features/inbox/presentation/widgets/conversation_tile.dart';
+import 'package:lumora/features/inbox/presentation/widgets/inbox_segment_control.dart';
+import 'package:lumora/features/settings/data/user_model.dart';
 
 import 'widgets/inbox_search_field.dart';
 import 'widgets/notification_tile.dart';
