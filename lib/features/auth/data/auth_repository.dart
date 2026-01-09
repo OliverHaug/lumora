@@ -15,9 +15,6 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-<<<<<<< HEAD
-    if (email == 'admin') email = 'admin@xyz.local';
-=======
     switch (email) {
       case 'admin':
         email = 'admin@xyz.local';
@@ -30,7 +27,6 @@ class AuthRepository {
         break;
     }
 
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
     try {
       await _client.auth.signInWithPassword(email: email, password: password);
       return const Success(null);

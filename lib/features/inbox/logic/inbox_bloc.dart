@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xyz/features/inbox/data/inbox_repository.dart';
-import 'inbox_event.dart';
-import 'inbox_state.dart';
-=======
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,29 +6,10 @@ import '../data/models/conversation_model.dart';
 
 part 'inbox_event.dart';
 part 'inbox_state.dart';
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 
 class InboxBloc extends Bloc<InboxEvent, InboxState> {
   final InboxRepository _repo;
 
-<<<<<<< HEAD
-  InboxBloc(this._repo) : super(const InboxState()) {
-    on<InboxStarted>(_onStarted);
-    on<InboxSearchChanged>(_onSearchChanged);
-    on<InboxRefreshRequested>(_onRefresh);
-    on<InboxTabChanged>(_onTabChanged);
-  }
-
-  Future<void> _onStarted(InboxStarted e, Emitter<InboxState> emit) async {
-    final cached = await _repo.loadCachedConversations();
-    emit(state.copyWith(status: InboxStatus.success, conversations: cached));
-
-    try {
-      final merged = await _repo.syncConversations(limit: 50);
-      emit(state.copyWith(status: InboxStatus.success, conversations: merged));
-    } catch (err) {
-      emit(state.copyWith(error: err.toString()));
-=======
   InboxBloc(this._repo) : super(const InboxState.initial()) {
     on<InboxStarted>(_onStarted);
     on<InboxRefreshRequested>(_onRefresh);
@@ -82,37 +57,10 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
       );
     } catch (e) {
       emit(state.copyWith(status: InboxStatus.failure, error: e.toString()));
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
     }
   }
 
   Future<void> _onRefresh(
-<<<<<<< HEAD
-    InboxRefreshRequested e,
-    Emitter<InboxState> emit,
-  ) async {
-    emit(state.copyWith(status: InboxStatus.loading, error: null));
-    try {
-      final merged = await _repo.syncConversations(limit: 50);
-      emit(state.copyWith(status: InboxStatus.success, conversations: merged));
-    } catch (err) {
-      emit(state.copyWith(status: InboxStatus.failure, error: err.toString()));
-    }
-  }
-
-  Future<void> _onSearchChanged(
-    InboxSearchChanged e,
-    Emitter<InboxState> emit,
-  ) async {
-    emit(state.copyWith(query: e.query));
-
-    final filtered = await _repo.searchLocal(e.query);
-    emit(state.copyWith(conversations: filtered));
-  }
-
-  void _onTabChanged(InboxTabChanged e, Emitter<InboxState> emit) {
-    emit(state.copyWith(mode: e.mode));
-=======
     InboxRefreshRequested event,
     Emitter<InboxState> emit,
   ) async {
@@ -163,6 +111,5 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
     }).toList();
 
     return sorted(filtered);
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
   }
 }

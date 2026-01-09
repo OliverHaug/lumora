@@ -5,10 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xyz/core/providers/app_providers.dart';
 import 'package:xyz/features/community/presentation/community_page.dart';
 import 'package:xyz/features/community/tabs/following/logic/circle_event.dart';
-<<<<<<< HEAD
-=======
 import 'package:xyz/features/inbox/presentation/chat_page.dart';
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 import 'package:xyz/features/inbox/presentation/inbox_page.dart';
 import 'package:xyz/features/settings/presentation/settings_page.dart';
 import 'package:xyz/features/start/presentation/start_page.dart';
@@ -107,9 +104,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
-<<<<<<< HEAD
-              GoRoute(path: '/inbox', builder: (_, __) => const InboxPage()),
-=======
               GoRoute(
                 path: '/inbox',
                 builder: (_, __) => const InboxPage(),
@@ -132,7 +126,6 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                 ],
               ),
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
             ],
           ),
 

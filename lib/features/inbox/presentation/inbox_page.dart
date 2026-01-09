@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< HEAD
-import 'package:xyz/core/providers/di_providers.dart';
-import 'package:xyz/features/inbox/logic/inbox_bloc.dart';
-import 'package:xyz/features/inbox/logic/inbox_event.dart';
-import 'package:xyz/features/inbox/logic/inbox_state.dart';
-import 'package:xyz/features/inbox/presentation/widgets/inbox_segment_control.dart';
-import 'widgets/conversation_tile.dart';
-import 'widgets/inbox_search_field.dart';
-import 'widgets/notification_tile.dart';
-
-class InboxPage extends ConsumerWidget {
-  const InboxPage({super.key});
-
-=======
 import 'package:go_router/go_router.dart';
 
 import 'package:xyz/core/providers/di_providers.dart';
@@ -50,7 +36,6 @@ class InboxPage extends ConsumerWidget {
     );
   }
 
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bloc = ref.watch(inboxBlocProvider);
@@ -76,25 +61,11 @@ class InboxPage extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-<<<<<<< HEAD
-                // optional: settings / filter
-=======
                 // optional
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
               },
             ),
           ],
         ),
-<<<<<<< HEAD
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          child: const Icon(Icons.edit, color: Colors.white),
-          onPressed: () {
-            // TODO: compose new chat
-            // z.B. context.go('/inbox/new_chat');
-          },
-        ),
-=======
 
         /// ✅ FAB: neue Konversation starten
         floatingActionButton: FloatingActionButton(
@@ -103,7 +74,6 @@ class InboxPage extends ConsumerWidget {
           onPressed: () => _openNewChatSheet(context),
         ),
 
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
         body: SafeArea(
           child: BlocBuilder<InboxBloc, InboxState>(
             builder: (context, state) {
@@ -115,25 +85,14 @@ class InboxPage extends ConsumerWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
                   children: [
-<<<<<<< HEAD
-                    // Segmented control
-                    InboxSegmentedControl(
-                      mode: state.mode,
-                      notificationsHasDot: true, // optional später dynamisch
-=======
                     InboxSegmentedControl(
                       mode: state.mode,
                       notificationsHasDot: true,
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                       onChanged: (m) =>
                           context.read<InboxBloc>().add(InboxTabChanged(m)),
                     ),
                     const SizedBox(height: 12),
 
-<<<<<<< HEAD
-                    // Search
-=======
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                     InboxSearchField(
                       value: state.query,
                       onChanged: (v) =>
@@ -141,10 +100,6 @@ class InboxPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
 
-<<<<<<< HEAD
-                    // Content
-=======
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
                     if (state.status == InboxStatus.loading) ...[
                       const SizedBox(height: 24),
                       const Center(child: CircularProgressIndicator()),
@@ -191,16 +146,12 @@ class _MessagesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final items = state.conversations;
-=======
     final items = state.conversations.where((c) {
       final hasAt = c.lastMessageAt != null;
       final hasText = c.lastMessageText.trim().isNotEmpty;
 
       return hasAt && hasText;
     });
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
 
     if (items.isEmpty) {
       return Padding(
@@ -218,10 +169,6 @@ class _MessagesList extends StatelessWidget {
           (c) => ConversationTile(
             conversation: c,
             onTap: () {
-<<<<<<< HEAD
-              // TODO: open chat detail
-              // context.go('/inbox/chat', arguments: c.id);
-=======
               final qp = <String, String>{
                 if (c.peerUser.name.trim().isNotEmpty)
                   'peer_name': c.peerUser.name,
@@ -231,7 +178,6 @@ class _MessagesList extends StatelessWidget {
 
               final q = qp.isEmpty ? '' : '?${Uri(queryParameters: qp).query}';
               context.go('/inbox/chat/${c.id}$q');
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
             },
           ),
         ),
@@ -245,10 +191,6 @@ class _NotificationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    // TODO: hier später NotificationsBloc + DB
-=======
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
     final mock = [
       (
         title: 'Dr. Green',
@@ -276,8 +218,6 @@ class _NotificationsList extends StatelessWidget {
     );
   }
 }
-<<<<<<< HEAD
-=======
 
 /// ✅ BottomSheet: Following auswählen → Conversation erstellen → Chat öffnen
 class NewChatSheet extends ConsumerStatefulWidget {
@@ -502,4 +442,3 @@ class _AvatarSmall extends StatelessWidget {
     );
   }
 }
->>>>>>> 94ee73e (feat(inbox,chat): add realtime inbox/chat, caching and UX improvements)
